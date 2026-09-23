@@ -1,1 +1,1 @@
-Test
+Hello, I'm Peter Sackett-Ferguson, a comp sci student in the C++ program. My academic experience is mostly with C++ (and a tiny amount of Python/PHP), but I've used js/ts for work and a significant amount of swift/rust/python for personal projects. I have very limited SQL experience, so I'm hoping to improve in that area this semester. In my own time, I like to read, play piano, and watch opera and ballet.
