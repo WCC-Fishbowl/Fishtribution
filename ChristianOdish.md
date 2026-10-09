@@ -1,0 +1,1 @@
+My name is Christian Odish, I am currently pursuing my Computer Science degree in Java, I will be transferring to ASU after this semester. I have a chinchilla name Benji who is 10 years old
