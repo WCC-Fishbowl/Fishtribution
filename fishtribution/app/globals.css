@@ -5,11 +5,28 @@
   --foreground: #171717;
 }
 
+/* Combined theme block */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  /* Geist font variables (from create-next-app) */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  
+  /* Color mappings */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  
+  /* Brand colors */
+  --color-brand-primary: #6d4aff;
+  --color-brand-primary-light: #8b6bff;
+  --color-brand-accent: #ffd166;
+  
+  /* UI colors */
+  --color-nav-bg: #ffffff;
+  --color-nav-border: #e5e7eb;
+  --color-bg-primary: #f9fafb;
+  --color-text-inactive: #6b7280;
+  --color-text-active: #6d4aff;
+  --color-text-hover: #374151;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,4 +40,17 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Utility classes */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
