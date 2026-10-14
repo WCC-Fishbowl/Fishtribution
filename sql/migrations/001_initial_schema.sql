@@ -48,13 +48,14 @@ CREATE TABLE catches (
     caught_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    deleted_at TIMESTAMPTZ,
     CONSTRAINT chk_catches_coordinates CHECK (
         (latitude IS NULL AND longitude IS NULL)
         OR (latitude IS NOT NULL AND longitude IS NOT NULL)
     )
 );
 
-CREATE INDEX idx_catches_user_date ON catches(user_id, caught_at DESC);
-CREATE INDEX idx_catches_taxon ON catches(taxon_id);
+CREATE INDEX idx_catches_user_date ON catches(user_id, caught_at DESC) WHERE catches.deleted_at IS NULL;
+CREATE INDEX idx_catches_taxon ON catches(taxon_id) WHERE catches.deleted_at IS NULL;
 CREATE INDEX idx_catches_caught_at
-ON catches(caught_at DESC);
+ON catches(caught_at DESC) WHERE catches.deleted_at IS NULL;
