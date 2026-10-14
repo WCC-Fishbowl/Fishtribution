@@ -5,20 +5,20 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import {
   HomeIcon,
-  MagnifyingGlassIcon,
+  MapIcon,
   UserCircleIcon,
   Cog6ToothIcon,
 } from '@heroicons/react/24/outline'
 import {
   HomeIcon as HomeSolidIcon,
-  MagnifyingGlassIcon as SearchSolidIcon,
+  MapIcon as SolidMapIcon,
   UserCircleIcon as UserSolidIcon,
   Cog6ToothIcon as SettingsSolidIcon,
 } from '@heroicons/react/24/solid'
 
 const TABS = [
   { href: '/home', label: 'Home', outlineIcon: HomeIcon, solidIcon: HomeSolidIcon },
-  { href: '/search', label: 'Search', outlineIcon: MagnifyingGlassIcon, solidIcon: SearchSolidIcon },
+  { href: '/map', label: 'Map', outlineIcon: MapIcon, solidIcon: SolidMapIcon },
   { href: '/profile', label: 'Profile', outlineIcon: UserCircleIcon, solidIcon: UserSolidIcon },
   { href: '/settings', label: 'Settings', outlineIcon: Cog6ToothIcon, solidIcon: SettingsSolidIcon },
 ]
