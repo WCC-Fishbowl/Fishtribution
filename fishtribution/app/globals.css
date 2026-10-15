@@ -17,9 +17,10 @@
   --color-foreground: var(--foreground);
   
   /* Brand colors */
-  --color-brand-primary: #6d4aff;
-  --color-brand-primary-light: #8b6bff;
-  --color-brand-accent: #ffd166;
+  --color-brand-primary: #BCA3FF;
+  --color-brand-primary-light: #C9B5FF;
+  --color-brand-accent: #DAA520;
+  --color-brand-accent-light: #F5CD5C;
   
   /* UI colors */
   --color-nav-bg: #ffffff;
