@@ -1,7 +1,11 @@
+import { redirect } from "next/navigation"
+
 export default function SplashPage() {
+  let user = null;
+  if ( user == null ) {
+    redirect("/login");
+  }
   return (
-    <div className="min-h-screen bg-bg-primary flex flex-col items-center justify-center pb-20">
-      <div className="text-9xl mb-4 cursor-default">🐟</div>
-    </div>
+    <h1>Splash!</h1>
   )
 }
