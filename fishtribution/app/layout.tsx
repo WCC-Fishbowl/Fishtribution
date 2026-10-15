@@ -34,7 +34,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${merriweatherSerif.variable} ${plexMono.variable} ${clashDisplay.variable}`}>
-      <body className="min-h-dvh pb-17.5">
+      <body className="min-h-dvh pb-17.5 overflow-hidden">
         <main>{children}</main>
         <BottomNav />
       </body>
