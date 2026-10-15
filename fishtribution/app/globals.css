@@ -23,6 +23,8 @@
   --color-brand-accent-light: #F5CD5C;
   
   /* UI colors */
+  --color-text-primary: var(--color-gray-900);
+  --color-text-secondary: var(--color-gray-400);
   --color-nav-bg: #ffffff;
   --color-nav-border: #e5e7eb;
   --color-bg-primary: #f9fafb;

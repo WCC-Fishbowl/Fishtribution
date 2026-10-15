@@ -67,7 +67,7 @@ export default function LoginPage() {
             Forgot password?
         </a>
         <div className="flex justify-center text-sm">
-            <p>Not a member yet?</p>
+            <p className="text-text-secondary">Not a member yet?</p>
             <a href="/signup" className="pl-1 text-blue-500">Sign up</a>
         </div>
     </div>
