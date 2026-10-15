@@ -1,17 +1,38 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { 
+  IBM_Plex_Mono, 
+  IBM_Plex_Sans, 
+  IBM_Plex_Serif,
+} from "next/font/google";
+import localFont from "next/font/local";
 import BottomNav from '@/components/BottomNav'
 import './globals.css'
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const plexMono = IBM_Plex_Mono ({
+  weight: ["200", "400", "600"],
+  style: ["normal", "italic"],
+  variable: "--font-plex-mono",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const plexSans = IBM_Plex_Sans ({
+  weight: ["200", "400", "600"],
+  style: ["normal", "italic"],
+  variable: "--font-plex-sans",
   subsets: ["latin"],
 });
+
+const plexSerif = IBM_Plex_Serif ({
+  weight: ["200", "400", "600"],
+  style: ["normal", "italic"],
+  variable: "--font-serif",
+  subsets: ["latin"],
+});
+
+const clashDisplay = localFont({
+  src: "../public/fonts/ClashDisplay-Variable.woff2",
+  variable: "--font-clash-display"
+})
 
 export const metadata: Metadata = {
   title: "Fishtribution",
