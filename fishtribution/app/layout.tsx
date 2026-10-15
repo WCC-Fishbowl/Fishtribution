@@ -1,31 +1,23 @@
 import type { Metadata } from "next";
-import { 
-  IBM_Plex_Mono, 
-  IBM_Plex_Sans, 
-  IBM_Plex_Serif,
-} from "next/font/google";
+import { IBM_Plex_Mono, Inter, Merriweather } from "next/font/google";
 import localFont from "next/font/local";
 import BottomNav from '@/components/BottomNav'
 import './globals.css'
 
 const plexMono = IBM_Plex_Mono ({
-  weight: ["200", "400", "600"],
-  style: ["normal", "italic"],
+  weight: "400",
+  style: "normal",
   variable: "--font-plex-mono",
   subsets: ["latin"],
 });
 
-const plexSans = IBM_Plex_Sans ({
-  weight: ["200", "400", "600"],
-  style: ["normal", "italic"],
-  variable: "--font-plex-sans",
+const inter = Inter ({
+  variable: "--font-merriweather-sans",
   subsets: ["latin"],
 });
 
-const plexSerif = IBM_Plex_Serif ({
-  weight: ["200", "400", "600"],
-  style: ["normal", "italic"],
-  variable: "--font-serif",
+const merriweatherSerif = Merriweather ({
+  variable: "--font-merriweather-serif",
   subsets: ["latin"],
 });
 
@@ -41,8 +33,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className="bg-gray-50 min-h-screen pb-[70px]">
+    <html lang="en" className={`${inter.variable} ${merriweatherSerif.variable} ${plexMono.variable} ${clashDisplay.variable}`}>
+      <body className="bg-gray-50 min-h-screen pb-17.5">
         <main>{children}</main>
         <BottomNav />
       </body>

@@ -5,13 +5,13 @@ export default async function HomePage() {
     const data = await getTestData();
 
     return (
-      <div className="p-8">
-        <h1 className="text-2xl font-bold mb-4">Test Table Contents</h1>
+      <div className="p-8 font-sans">
+        <h1 className="text-3xl font-title font-semibold mb-4">Test Table Contents</h1>
         
         {data.length === 0 ? (
           <p>No records found</p>
         ) : (
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto font-mono">
             <table className="min-w-full border">
               <thead className="bg-gray-100">
                 <tr>

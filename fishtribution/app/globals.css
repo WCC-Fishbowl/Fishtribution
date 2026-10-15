@@ -8,8 +8,8 @@
 /* Combined theme block */
 @theme inline {
   --font-mono: var(--font-plex-mono);
-  --font-sans: var(--font-plex-sans);
-  --font-serif: var(--font-plex-serif);
+  --font-sans: var(--font-merriweather-sans);
+  --font-serif: var(--font-merriweather-serif);
   --font-title: var(--font-clash-display);
   
   /* Color mappings */
