@@ -1,10 +1,8 @@
-import { redirect } from "next/navigation"
+import { requireServerAuth } from "@/lib/auth/guard"
 
-export default function SplashPage() {
-  let user = null;
-  if ( user == null ) {
-    redirect("/auth/login");
-  }
+export default async function SplashPage() {
+  const session = await requireServerAuth();
+
   return (
     <h1>Splash!</h1>
   )
