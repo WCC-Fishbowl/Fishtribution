@@ -6,6 +6,7 @@ import './globals.css'
 
 // TEMPORARY
 import '@neondatabase/auth-ui/css';
+import { Providers } from "@/app/providers";
 
 const plexMono = IBM_Plex_Mono ({
   weight: "400",
@@ -36,9 +37,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${merriweatherSerif.variable} ${plexMono.variable} ${clashDisplay.variable}`}>
+    <html lang="en" className={`${inter.variable} ${merriweatherSerif.variable} ${plexMono.variable} ${clashDisplay.variable}`} suppressHydrationWarning>
       <body className="min-h-dvh pb-17.5 overflow-hidden">
-        <main>{children}</main>
+        <Providers>
+          {children}
+        </Providers>
         <BottomNav />
       </body>
     </html>
