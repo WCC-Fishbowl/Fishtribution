@@ -4,6 +4,9 @@ import localFont from "next/font/local";
 import BottomNav from '@/components/BottomNav'
 import './globals.css'
 
+// TEMPORARY
+import '@neondatabase/auth-ui/css';
+
 const plexMono = IBM_Plex_Mono ({
   weight: "400",
   style: "normal",
