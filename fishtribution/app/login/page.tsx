@@ -3,6 +3,8 @@ import {
   LockClosedIcon,
 } from '@heroicons/react/24/outline'
 
+import Link from 'next/link';
+
 import Button from "@/components/Button"
 import Divider from "@/components/Divider"
 import TextInput from "@/components/TextInput"
@@ -11,9 +13,7 @@ const GoogleIcon = ({className}: {className: string}) => {
   return (
     <svg 
       version="1.1" 
-      xmlns="http://w3.org" 
       viewBox="0 0 48 48" 
-      xmlnsXlink="http://w3.org" 
       className={className}
       style={{ display: 'block', width: '20px', height: '20px' }} // Standard icon sizing
     >
@@ -29,23 +29,23 @@ const GoogleIcon = ({className}: {className: string}) => {
 
 export default function LoginPage() {
     return <div className="flex flex-col h-full p-12 font-sans">
-        <p className="flex flex-1 justify-center font-title text-3xl font-medium">
+        <label className="flex justify-center font-title text-3xl font-medium">
             Fishtribution
-        </p>
-        <p className="justify-start font-title text-2xl font-medium underline py-8">
+        </label>
+        <label className="justify-start font-title text-2xl font-medium underline py-8">
             Sign In
-        </p>
-        <p className="font-title text font-medium">
+        </label>
+        <label className="font-title font-medium">
             Email
-        </p>
+        </label>
         <TextInput fullWidth
             icon={<EnvelopeIcon className="w-5 h-5"/>}
             className="my-2"
             placeholder="username@mail.com"
         />
-        <p className="font-title text font-medium">
+        <label className="font-title font-medium">
             Password
-        </p>
+        </label>
         <TextInput fullWidth
             type="password"
             icon={<LockClosedIcon className="w-5 h-5"/>}
@@ -58,7 +58,7 @@ export default function LoginPage() {
         </div>
         <Button fullWidth
             variant="outline"
-            className="flex justify-start mb-3"
+            className="relative flex justify-start mb-3"
         >
             <GoogleIcon className="absolute"/>
             <p className="flex flex-1 justify-center font-normal">Sign in with Google</p>
@@ -68,7 +68,7 @@ export default function LoginPage() {
         </a>
         <div className="flex justify-center text-sm">
             <p className="text-text-secondary">Not a member yet?</p>
-            <a href="/signup" className="pl-1 text-blue-500">Sign up</a>
+            <Link href="/signup" className="pl-1 text-text-link">Sign up</Link>
         </div>
     </div>
 }
