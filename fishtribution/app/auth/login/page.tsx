@@ -3,9 +3,9 @@ import {
   LockClosedIcon,
 } from '@heroicons/react/24/outline'
 
-import Button from "../../components/Button"
-import Divider from "../../components/Divider"
-import TextInput from "../../components/TextInput"
+import Button from "@/components/Button"
+import Divider from "@/components/Divider"
+import TextInput from "@/components/TextInput"
 
 const GoogleIcon = ({className}: {className: string}) => {
   return (
