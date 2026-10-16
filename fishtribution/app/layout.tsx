@@ -35,7 +35,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${merriweather.variable} ${plexMono.variable} ${clashDisplay.variable}`} suppressHydrationWarning>
-      <body className="min-h-dvh overflow-hidden">
+      <body className="min-h-dvh overflow-y-auto">
         <Providers>
           {children}
         </Providers>

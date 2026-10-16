@@ -26,8 +26,8 @@ export default function BottomNav() {
   const pathname = usePathname()
 
   return (
-    <nav className="w-full z-50 bg-nav-bg border-t border-nav-border shadow-sm pb-safe shrink-0">
-      <div className="flex justify-around items-center max-w-lg mx-auto">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-nav-bg border-t border-nav-border shadow-sm pb-safe shrink-0">
+      <div className="flex justify-around items-center max-w-lg mx-auto h-16">
         {TABS.map((tab) => {
           const isActive = pathname === tab.href
           const Icon = isActive ? tab.solidIcon : tab.outlineIcon
