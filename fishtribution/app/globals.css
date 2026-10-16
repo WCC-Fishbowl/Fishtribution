@@ -7,20 +7,24 @@
 
 /* Combined theme block */
 @theme inline {
-  /* Geist font variables (from create-next-app) */
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-mono: var(--font-plex-mono);
+  --font-sans: var(--font-merriweather-sans);
+  --font-serif: var(--font-merriweather-serif);
+  --font-title: var(--font-clash-display);
   
   /* Color mappings */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   
   /* Brand colors */
-  --color-brand-primary: #6d4aff;
-  --color-brand-primary-light: #8b6bff;
-  --color-brand-accent: #ffd166;
+  --color-brand-primary: #BCA3FF;
+  --color-brand-primary-light: #C9B5FF;
+  --color-brand-accent: #DAA520;
+  --color-brand-accent-light: #F5CD5C;
   
   /* UI colors */
+  --color-text-primary: var(--color-gray-900);
+  --color-text-secondary: var(--color-gray-400);
   --color-nav-bg: #ffffff;
   --color-nav-border: #e5e7eb;
   --color-bg-primary: #f9fafb;
@@ -29,12 +33,14 @@
   --color-text-hover: #374151;
 }
 
+/*
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
 }
+*/
 
 body {
   background: var(--background);
