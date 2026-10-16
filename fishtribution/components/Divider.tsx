@@ -1,5 +1,3 @@
-import { ReactNode } from "react"
-
 export default function Divider(
     { label, className }: { label: string, className: string })
 {

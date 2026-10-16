@@ -29,23 +29,23 @@ const GoogleIcon = ({className}: {className: string}) => {
 
 export default function LoginPage() {
     return <div className="flex flex-col h-full p-12 font-sans">
-        <h1 className="flex flex-1 justify-center font-title text-3xl font-medium">
+        <p className="flex flex-1 justify-center font-title text-3xl font-medium">
             Fishtribution
-        </h1>
-        <h2 className="justify-start font-title text-2xl font-medium underline py-8">
+        </p>
+        <p className="justify-start font-title text-2xl font-medium underline py-8">
             Sign In
-        </h2>
-        <h3 className="font-title text font-medium">
+        </p>
+        <p className="font-title text font-medium">
             Email
-        </h3>
+        </p>
         <TextInput fullWidth
             icon={<EnvelopeIcon className="w-5 h-5"/>}
             className="my-2"
             placeholder="username@mail.com"
         />
-        <h3 className="font-title text font-medium">
+        <p className="font-title text font-medium">
             Password
-        </h3>
+        </p>
         <TextInput fullWidth
             type="password"
             icon={<LockClosedIcon className="w-5 h-5"/>}

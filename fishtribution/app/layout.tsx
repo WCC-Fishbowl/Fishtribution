@@ -1,11 +1,8 @@
+import './globals.css'
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, Inter, Merriweather } from "next/font/google";
 import localFont from "next/font/local";
-import BottomNav from '@/components/BottomNav'
-import './globals.css'
 
-// TEMPORARY
-import '@neondatabase/auth-ui/css';
 import { Providers } from "@/app/providers";
 
 const plexMono = IBM_Plex_Mono ({
@@ -16,12 +13,12 @@ const plexMono = IBM_Plex_Mono ({
 });
 
 const inter = Inter ({
-  variable: "--font-merriweather-sans",
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
-const merriweatherSerif = Merriweather ({
-  variable: "--font-merriweather-serif",
+const merriweather = Merriweather ({
+  variable: "--font-merriweather",
   subsets: ["latin"],
 });
 
@@ -37,12 +34,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${merriweatherSerif.variable} ${plexMono.variable} ${clashDisplay.variable}`} suppressHydrationWarning>
-      <body className="min-h-dvh pb-17.5 overflow-hidden">
+    <html lang="en" className={`${inter.variable} ${merriweather.variable} ${plexMono.variable} ${clashDisplay.variable}`} suppressHydrationWarning>
+      <body className="min-h-dvh overflow-hidden">
         <Providers>
           {children}
         </Providers>
-        <BottomNav />
       </body>
     </html>
   )
