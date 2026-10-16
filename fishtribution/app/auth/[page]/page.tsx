@@ -1,6 +1,7 @@
 import { AuthClientView } from './client';
 import { authViewPaths } from "@neondatabase/auth-ui/server";
 
+export const dynamic = 'force-dynamic';
 export const dynamicParams = false;
 
 // Pre-builds pages for sign-in, sign-up, forgot-password, etc.
