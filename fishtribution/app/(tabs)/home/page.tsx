@@ -6,7 +6,7 @@ export default async function HomePage() {
 
     return (
       <div className="p-8 font-sans">
-        <h1 className="text-3xl font-title font-semibold mb-4">Test Table Contents</h1>
+        <p className="text-3xl font-title font-semibold mb-4">Test Table Contents</p>
         
         {data.length === 0 ? (
           <p>No records found</p>
@@ -42,7 +42,7 @@ export default async function HomePage() {
     console.error(error);
     return (
       <div className="p-8 text-red-600">
-        <h1 className="text-xl font-bold">Connection Failed</h1>
+        <p className="text-xl font-bold">Connection Failed</p>
         <p>Check your DATABASE_URL environment variable</p>
         <pre className="mt-4 bg-red-100 p-4 rounded overflow-auto">
           {String(error)}
