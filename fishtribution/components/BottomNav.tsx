@@ -38,8 +38,8 @@ export default function BottomNav() {
               href={tab.href}
               className={`flex flex-col items-center justify-center flex-1 py-3 transition-colors ${
                 isActive 
-                  ? 'text-text-active' 
-                  : 'text-text-inactive hover:text-text-hover'
+                  ? 'text-brand-primary' 
+                  : 'text-text-primary hover:text-text-secondary'
               }`}
             >
               <Icon className="w-6 h-6" />
