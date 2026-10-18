@@ -1,8 +1,14 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, Inter, Merriweather } from "next/font/google";
 import localFont from "next/font/local";
 import BottomNav from '@/components/BottomNav'
 import './globals.css'
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+}
 
 const plexMono = IBM_Plex_Mono ({
   weight: "400",
