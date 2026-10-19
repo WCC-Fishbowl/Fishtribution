@@ -1,8 +1,8 @@
 import { redirect} from "next/navigation";
-import { requireServerAuth } from "@/lib/auth/guard"
+import { authServer } from "@/lib/auth/guard"
 
 export default async function SplashPage() {
-  const session = await requireServerAuth();
+  const session = await authServer(true);
   redirect("home/");
 
   return (
