@@ -29,8 +29,69 @@ export async function getTestData() {
   return data;
 }
 
+export async function insertNewUser(
+  session: Session, 
+  username: string, 
+  email: string,
+) {
+  const uid = session.user.id;
+  const data = await sql`
+    INSERT INTO users (user_id, username, email, role)
+    VALUES (${uid}, ${username}, ${email}, 'angler')
+    ON CONFLICT (user_id) DO NOTHING;
+  `
+  
+  return data;
+}
+
+export async function insertUserSettings(
+  session: Session
+) {
+  const uid = session.user.id;
+  const data = await sql`
+    INSERT INTO user_settings (user_id)
+    VALUES (${uid})
+    ON CONFLICT (user_id) DO NOTHING;
+  `
+
+  return data;
+}
+
+export async function deleteUser(session: Session) {
+  const uid = session.user.id;
+  const data = await sql`
+    DELETE FROM users
+    WHERE user_id = ${uid};    
+  `
+  
+  return data;
+}
+
+export async function deleteUserSettings(session: Session) {
+  const uid = session.user.id;
+  const data = await sql`
+    DELETE FROM user_settings
+    WHERE user_id = ${uid}; 
+  `
+
+  return data;
+}
+
+export async function unlinkCatchesFromUser(session: Session) {
+  const uid = session.user.id;
+  const data = await sql`
+    UPDATE catches
+    SET user_id = NULL
+    WHERE user_id = ${uid};
+  `
+
+  return data;
+}
+
+
 export async function getUserSettings(session: Session) {
   const uid = session.user.id;
   const data = await sql`SELECT * FROM user_settings WHERE user_id = ${uid}`;
+
   return data;
 }
