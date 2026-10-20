@@ -1,9 +1,12 @@
-import { getTestData } from '@/lib/db';
+import { auth } from '@/lib/auth/server';
+import { getTestData, getUserSettings } from '@/lib/db';
+
 
 export default async function HomePage() {
   try {
-    const data = await getTestData();
-
+    const { data: session, error } = await auth.getSession();
+    const data = session ? await getUserSettings(session) : [];
+    
     return (
       <div className="p-8 font-sans">
         <p className="text-3xl font-title font-semibold mb-4">Test Table Contents</p>
