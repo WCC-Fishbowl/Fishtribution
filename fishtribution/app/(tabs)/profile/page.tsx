@@ -1,7 +1,7 @@
 import { authServer } from "@/lib/auth/guard";
 
 export default async function ProfilePage() {
-  const session = await authServer();
+  const session = await authServer(true);
 
   return <p className="text-3xl font-bold p-4">Profile</p>
 }
