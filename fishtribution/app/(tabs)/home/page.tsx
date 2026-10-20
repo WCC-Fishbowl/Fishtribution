@@ -5,7 +5,7 @@ import { getTestData, getUserSettings } from '@/lib/db';
 export default async function HomePage() {
   try {
     const { data: session, error } = await auth.getSession();
-    const data = session ? await getUserSettings(session) : null;
+    const data = session ? await getUserSettings(session) : [];
     
     return (
       <div className="p-8 font-sans">
