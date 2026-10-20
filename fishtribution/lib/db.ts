@@ -29,6 +29,18 @@ export async function getTestData() {
   return data;
 }
 
+export async function checkIfUserExists(
+  session: Session
+) {
+  const uid = session.user.id;
+  const [row] = await sql`
+    SELECT COUNT(*) AS exists_count
+    FROM users
+    WHERE user_id = ${uid};
+  `
+  return row.exists_count > 0;
+}
+
 export async function insertNewUser(
   session: Session, 
   username: string, 
