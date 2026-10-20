@@ -1,4 +1,3 @@
-
 import csv
 import random
 import uuid
@@ -6,12 +5,15 @@ import os
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
+import shapely
+import numpy as np
 import geopandas as gpd
 from faker import Faker
 from noise import pnoise2
 from shapely.geometry import Point
 
 random.seed(42)
+np.random.seed(42)
 Faker.seed(42)
 
 fake = Faker()
@@ -73,14 +75,15 @@ with open("sql/generated/users.csv", "w", newline="") as file:
 
 print("Generated", len(users), "fictional users")
 
-water = gpd.read_file("sql/generated/ann_arbor_water.geojson")
-population = gpd.read_file("sql/generated/ann_arbor_population.geojson")
+water = gpd.read_file("sql/data/ann_arbor_water.geojson")
+population = gpd.read_file("sql/data/ann_arbor_population.geojson")
 
 water = water[water.geom_type.isin(["Polygon", "MultiPolygon"])]
 water = water.to_crs(4326)
 population = population.to_crs(4326)
 
 water_shape = water.geometry.union_all()
+shapely.prepare(water_shape)
 min_lon, min_lat, max_lon, max_lat = water_shape.bounds
 
 locations = []
@@ -156,6 +159,14 @@ for fish in range(len(species)):
 
     location_weights.append(weights)
 
+location_cdfs = []
+for w in location_weights:
+    c = np.cumsum(w)
+    location_cdfs.append(c / c[-1])
+
+species_cum = np.cumsum(species_weights)
+species_cum = species_cum / species_cum[-1]
+
 with open("sql/generated/realistic_catches.csv", "w", newline="") as file:
     writer = csv.writer(file)
 
@@ -169,15 +180,8 @@ with open("sql/generated/realistic_catches.csv", "w", newline="") as file:
     ])
 
     for i in range(num_catches):
-        fish = random.choices(
-            range(len(species)),
-            weights=species_weights
-        )[0]
-
-        location_index = random.choices(
-            range(len(locations)),
-            weights=location_weights[fish]
-        )[0]
+        fish = int(np.searchsorted(species_cum, random.random()))
+        location_index = int(np.searchsorted(location_cdfs[fish], random.random()))
 
         lon, lat = locations[location_index]
 
