@@ -19,8 +19,8 @@ Faker.seed(42)
 fake = Faker()
 os.makedirs("sql/generated", exist_ok=True)
 
-num_users = 100
-num_catches = 10000
+num_users = 1000
+num_catches = 100000
 
 species = [
     "Largemouth Bass",
@@ -88,7 +88,7 @@ min_lon, min_lat, max_lon, max_lat = water_shape.bounds
 
 locations = []
 
-while len(locations) < 4000:
+while len(locations) < 20000:
     lon = random.uniform(min_lon, max_lon)
     lat = random.uniform(min_lat, max_lat)
 
