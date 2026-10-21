@@ -104,8 +104,6 @@ class SQLBatchGenerator:
             "CURRENT_TIMESTAMP",
             "NULL",                               # deleted_at
             self.point(row.get("latitude"), row.get("longitude")),
-            self.nvl(row.get("fish_taxa")),       # NULL if not in CSV
-            self.nvl(row.get("user")),            # NULL if not in CSV
         ]
 
     def load_csv(self, path: Path, row_fn) -> List[List[str]]:
@@ -146,7 +144,7 @@ def main():
         "catches",
         ["catch_id", "user_id", "taxon_id", "weight_kg", "length_cm",
          "bait_or_lure", "notes", "caught_at", "created_at", "updated_at",
-         "deleted_at", "pos", "fish_taxa", "user"],
+         "deleted_at", "pos"],
         gen.load_csv(catches_csv, gen.catches_row),
     )
 
