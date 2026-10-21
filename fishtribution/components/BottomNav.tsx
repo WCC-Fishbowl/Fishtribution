@@ -16,7 +16,7 @@ import {
 } from '@heroicons/react/24/solid'
 
 const TABS = [
-  { href: '/home', label: 'Home', outlineIcon: HomeIcon, solidIcon: HomeSolidIcon },
+  { href: '/home', label: 'Home', outlineIcon: HomeIcon, solidIcon: HomeSolidIcon, offset: 3 },
   { href: '/map', label: 'Map', outlineIcon: MapIcon, solidIcon: SolidMapIcon },
   { href: '/profile', label: 'Profile', outlineIcon: UserCircleIcon, solidIcon: UserSolidIcon },
   { href: '/settings', label: 'Settings', outlineIcon: Cog6ToothIcon, solidIcon: SettingsSolidIcon },
@@ -41,6 +41,7 @@ export default function BottomNav() {
                   ? 'text-brand-primary' 
                   : 'text-text-primary hover:text-text-secondary'
               }`}
+              style={tab.offset ? { transform: `translateX(${tab.offset}px)` } : undefined}
             >
               <Icon className="w-6 h-6" />
               <span className={`text-xs mt-1 font-medium ${isActive ? 'font-semibold' : ''}`}>
