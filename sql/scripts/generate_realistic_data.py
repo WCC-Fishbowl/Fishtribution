@@ -166,6 +166,13 @@ for w in location_weights:
 
 species_cum = np.cumsum(species_weights)
 species_cum = species_cum / species_cum[-1]
+fish_measurements = [
+    (35, 9, 12, 65, 0.012, 3.05),
+    (19, 5, 8, 35, 0.020, 3.00),
+    (24, 6, 10, 45, 0.011, 3.05),
+    (65, 16, 30, 120, 0.006, 3.00),
+    (42, 11, 20, 85, 0.010, 3.05)
+]
 
 with open("sql/generated/realistic_catches.csv", "w", newline="") as file:
     writer = csv.writer(file)
@@ -176,11 +183,22 @@ with open("sql/generated/realistic_catches.csv", "w", newline="") as file:
         "taxon_id",
         "latitude",
         "longitude",
-        "caught_at"
+        "caught_at",
+        "weight_kg",
+        "length_cm"
     ])
 
     for i in range(num_catches):
         fish = int(np.searchsorted(species_cum, random.random()))
+        mean, std, minimum, maximum, coefficient, exponent = fish_measurements[fish]
+
+        length_cm = max(minimum, min(maximum, random.gauss(mean, std)))
+        weight_kg = coefficient * (length_cm / 10) ** exponent
+        weight_kg *= random.lognormvariate(0, 0.12)
+
+        length_cm = round(length_cm, 1)
+        weight_kg = round(weight_kg, 3)
+
         location_index = int(np.searchsorted(location_cdfs[fish], random.random()))
 
         lon, lat = locations[location_index]
@@ -217,7 +235,9 @@ with open("sql/generated/realistic_catches.csv", "w", newline="") as file:
             fish_ids[fish],
             round(lat, 6),
             round(lon, 6),
-            caught_at.isoformat()
+            caught_at.isoformat(),
+            weight_kg,
+            length_cm
         ])
 
 print("Generated", num_catches, "synthetic catches")

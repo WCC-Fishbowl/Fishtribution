@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python3
 """
 Generate batched SQL migrations from CSV files for Neon PostgreSQL + PostGIS.
@@ -23,38 +24,31 @@ class SQLBatchGenerator:
         self.lines: List[str] = []
 
     # ---------- Generate taxa -------------
-    
-    def insert_taxa(self, output_path: Path, num_taxa: int = 10) -> int:
-        # Example taxon data - customize as needed
-        TAXON_DATA = [
-            ("Common Name 1", "Scientific Name 1", "Family 1", "Genus 1", "Description 1"),
-            ("Common Name 2", "Scientific Name 2", "Family 2", "Genus 2", "Description 2"),
-            # ... add entries for 0-9
+
+    def insert_taxa(self, output_path: Path, num_taxa: int = 5) -> int:
+        taxa = [
+            ("Largemouth Bass", "Micropterus salmoides", "Centrarchidae", "Micropterus"),
+            ("Bluegill", "Lepomis macrochirus", "Centrarchidae", "Lepomis"),
+            ("Yellow Perch", "Perca flavescens", "Percidae", "Perca"),
+            ("Northern Pike", "Esox lucius", "Esocidae", "Esox"),
+            ("Walleye", "Sander vitreus", "Percidae", "Sander")
         ]
-        
+
         rows = []
-        for i in range(num_taxa):
-            idx_str = str(i).zfill(1)  # '0', '1', ... '9'
-            taxon_id = f"20000000-0000-4000-8000-00000000000{idx_str}"
-            
-            # Customize these per entry, or generate synthetically
-            common_name = f"Fish Species {i}"
-            scientific_name = f"Genus{i} species{i}"
-            family = f"Family_{i}"
-            genus = f"Genus{i}"
-            description = f"Synthetic fish taxon entry {i} for testing purposes."
-            
-            row_values = [
+
+        for i, (common, scientific, family, genus) in enumerate(taxa, start=1):
+            taxon_id = f"20000000-0000-4000-8000-{i:012d}"
+
+            rows.append([
                 self.nvl(taxon_id),
-                self.esc(common_name),
-                self.esc(scientific_name),
+                self.esc(common),
+                self.esc(scientific),
                 self.esc(family),
                 self.esc(genus),
-                self.esc(description),
-                "CURRENT_TIMESTAMP",
-            ]
-            rows.append(row_values)
-        
+                self.esc(f"Synthetic catch data for {common}."),
+                "CURRENT_TIMESTAMP"
+            ])
+
         return self.emit_batches(
             "fish_taxa",
             ["taxon_id", "common_name", "scientific_name", "family", "genus", "description", "created_at"],
@@ -161,7 +155,7 @@ class SQLBatchGenerator:
 
 
 def main():
-    
+
     users_csv = Path("sql/generated/users.csv")
     catches_csv = Path("sql/generated/realistic_catches.csv")
     out = Path("sql/generated/001_add_synthetic_data.sql")
@@ -172,8 +166,7 @@ def main():
     )
 
     gen.lines.append("-- ===== fish_taxa =====\n")
-    # Generate 10 taxon entries (0-9) matching your taxon_id pattern
-    gen.insert_taxa(out, num_taxa=10)
+    gen.insert_taxa(out, num_taxa=5)
 
     gen.lines.append("-- ===== users =====\n")
     gen.emit_batches(
