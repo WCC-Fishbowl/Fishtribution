@@ -11,7 +11,7 @@ export default function TextArea({
   className = '',
   ...props
 }: TextAreaProps) {
-  const baseClasses = 'border border-slate-300 bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-brand-primary disabled:opacity-50 disabled:bg-slate-50 transition-all duration-200 rounded-lg py-2 px-4 resize-y';
+  const baseClasses = 'border border-slate-300 bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-brand-primary disabled:opacity-50 disabled:bg-slate-50 transition-all duration-200 rounded-lg py-2 px-4';
 
   const combinedClasses = `
     ${baseClasses}

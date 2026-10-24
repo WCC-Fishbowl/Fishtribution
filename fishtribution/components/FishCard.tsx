@@ -1,12 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link'
-
-export type Fish = {
-  id: string
-  name: string
-  description: string
-  image: string
-}
+import { Fish } from '@/types/Fish'
 
 // Wide card: image on one side, text on the other
 export function FishRow({ fish, imageSide }: { fish: Fish; imageSide: 'left' | 'right' }) {

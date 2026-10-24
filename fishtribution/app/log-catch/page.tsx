@@ -2,6 +2,7 @@
 
 import {
     ArrowUpOnSquareIcon,
+    ArrowLeftIcon,
 } from '@heroicons/react/24/outline';
 import {
     CameraIcon,
@@ -14,14 +15,33 @@ import TextArea from "../../components/TextArea"
 import DropdownSelect from "../../components/DropdownSelect"
 import DateTimeSelect from "../../components/DateTimeSelect"
 import CatchPhotoScroller from "../../components/CatchPhotoScroller"
+import Link from 'next/dist/client/link';
 
 export default function LogCatchPage() {
     const router = useRouter();
 
-    return <div className="flex flex-col overflow-y-scroll pt-4 pb-8 px-12 font-sans">
-        <h1 className="flex justify-center font-title text-3xl font-medium">
-            Log Catch
-        </h1>
+    return <div className="flex flex-col pt-6 pb-8 px-6 font-sans">
+        {/* Header */}
+        <header className="flex items-center justify-between">
+            <button
+                type="button"
+                aria-label="Back"
+                className="h-9 w-9 text-brand-primary hover:text-brand-primary-light"
+                onClick={() => router.back()}
+            >
+                <ArrowLeftIcon className="h-full w-full"/>
+            </button>
+
+            <h1 className="font-title text-2xl font-bold">Log Catch</h1>
+
+            <Link href="/profile" aria-label="Profile" className="h-9 w-9 rounded-full border border-red-300 p-0.5">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/betta.jpg" alt="" className="h-full w-full rounded-full object-cover" />
+            </Link>
+        </header>
+
+        <div className="my-4 border-b border-zinc-200" />
+
         <CatchPhotoScroller className="my-4 justify-center"/>
         <div className="flex items-center justify-center gap-24">
             <button

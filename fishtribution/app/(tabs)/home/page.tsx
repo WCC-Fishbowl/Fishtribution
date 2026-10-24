@@ -1,33 +1,49 @@
 'use client'
 
-import { useState } from 'react'
-import Link from 'next/link'
-import { FishRow, FishTile, type Fish } from '@/components/FishCard'
+import { useState } from 'react';
+import Link from 'next/link';
+import CatchRow from '@/components/CatchCard';
+import { CatchTile } from '@/components/CatchCard';
+import { Fish } from '@/types/Fish';
+import { Catch } from '@/types/Catch';
+import { useRouter } from 'next/navigation';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
-const filters = ['Recent', 'Local', 'Finished']
+const filters = ['User', 'Local', 'Global']
 
-const description =
-  'Brook trout are Michigan’s state fish, known for their vivid coloring and preference for cold, clean streams and rivers across the state.'
+const description = 'Brook trout are Michigan’s state fish, known for their vivid coloring and preference for cold, clean streams and rivers across the state.'
 
-  const placeholderImage = '/betta.jpg'
+const placeholderImage = '/betta.jpg'
 
-  const fishes: Fish[] = [
-    { id: 'brook-trout-1', name: 'Brook Trout', description, image: placeholderImage },
-    { id: 'brook-trout-2', name: 'Brook Trout', description, image: placeholderImage },
-    { id: 'brook-trout-3', name: 'Brook Trout', description, image: placeholderImage },
-    { id: 'brook-trout-4', name: 'Brook Trout', description, image: placeholderImage },
-  ]
+const fish1: Fish = { id: 'striped-fantail-darter', name: 'Striped Fantail Darter', scientific_name: 'Etheostoma flabellare lineolatum', description, image: placeholderImage }
+const fish2: Fish = { id: 'brook-trout', name: 'Brook Trout', scientific_name: 'Salvelinus fontinalis', description, image: placeholderImage }
+
+const catches: Catch[] = [
+    { id: '1', fish: fish1, images: ['/betta.jpg'], date: '10/19/26', username: 'xXx_betta_fish_xXx'},
+    { id: '2', fish: fish2, images: [
+        '/betta.jpg',
+        '/betta.jpg'
+    ], date: '7/4/25', username: 'br00k_tr0ut_9000'}
+]
 
 export default function HomePage() {
-  const [selected, setSelected] = useState('Finished')
+  const [selected, setSelected] = useState('User')
+  const router = useRouter();
 
   return (
     <div className="flex flex-col p-6 pb-24 font-sans">
       {/* Header */}
       <header className="flex items-center justify-between">
-        <div className="h-9 w-9" /> {/* spacer keeps the title centered */}
+        <button
+          type="button"
+          aria-label="Back"
+          className="h-9 w-9 text-brand-primary hover:text-brand-primary-light"
+          onClick={() => router.back()}
+        >
+          <ArrowLeftIcon className="h-full w-full"/>
+        </button>
 
-        <h1 className="font-title text-2xl font-bold">Explore</h1>
+        <h1 className="font-title text-2xl font-bold">{selected === 'User' ? 'Home' : 'Explore'}</h1>
 
         <Link href="/profile" aria-label="Profile" className="h-9 w-9 rounded-full border border-red-300 p-0.5">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -54,12 +70,32 @@ export default function HomePage() {
 
       {/* Fish list */}
       <div className="mt-6 flex flex-col gap-6">
-        <FishRow fish={fishes[0]} imageSide="left" />
+        <CatchRow
+          catchRecord={catches[0]}
+          showUser={selected !== 'User'}
+          imageSide="left"
+          onClick={() => router.push(`/catch/${catches[0].id}`)}
+        />
         <div className="grid grid-cols-2 gap-4">
-          <FishTile fish={fishes[1]} imagePosition="top" />
-          <FishTile fish={fishes[2]} imagePosition="bottom" />
+          <CatchTile
+            catchRecord={catches[1]}
+            showUser={selected !== 'User'}
+            imagePosition="top"
+            onClick={() => router.push(`/catch/${catches[1].id}`)}
+          />
+          <CatchTile
+            catchRecord={catches[0]}
+            showUser={selected !== 'User'}
+            imagePosition="bottom"
+            onClick={() => router.push(`/catch/${catches[0].id}`)}
+          />
         </div>
-        <FishRow fish={fishes[3]} imageSide="right" />
+        <CatchRow
+          catchRecord={catches[1]}
+          showUser={selected !== 'User'}
+          imageSide="right"
+          onClick={() => router.push(`/catch/${catches[1].id}`)}
+        />
       </div>
     </div>
   )
