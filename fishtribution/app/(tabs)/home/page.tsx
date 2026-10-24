@@ -7,7 +7,7 @@ import { CatchTile } from '@/components/CatchCard';
 import { Fish } from '@/types/Fish';
 import { Catch } from '@/types/Catch';
 import { useRouter } from 'next/navigation';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+import { ArrowLeftIcon, MagnifyingGlassIcon, PlusIcon } from '@heroicons/react/24/outline';
 
 const filters = ['User', 'Local', 'Global']
 
@@ -33,23 +33,49 @@ export default function HomePage() {
   return (
     <div className="flex flex-col p-6 pb-24 font-sans">
       {/* Header */}
-      <header className="flex items-center justify-between">
+      <header className="grid grid-cols-[1fr_auto_1fr] items-center">
+        <div className="flex justify-self-start">
+          <button
+            type="button"
+            aria-label="Back"
+            className="h-9 w-9 text-brand-primary hover:text-brand-primary-light"
+            onClick={() => router.back()}
+          ><ArrowLeftIcon className="h-full w-full" /></button>
+        </div>
+
+        <h1 className="justify-self-center font-title text-2xl font-bold">
+          {selected === 'User' ? 'Home' : 'Explore'}
+        </h1>
+
+        <div className="flex items-center justify-self-end gap-2">
+          <button
+            type="button"
+            aria-label="First action"
+            className="h-9 w-9 text-brand-primary hover:text-brand-primary-light"
+            onClick={() => console.log("Search/Filter")}
+          ><MagnifyingGlassIcon className="h-full w-full" /></button>
+
         <button
-          type="button"
-          aria-label="Back"
-          className="h-9 w-9 text-brand-primary hover:text-brand-primary-light"
-          onClick={() => router.back()}
+            type="button"
+            aria-label="Second action"
+            className="h-9 w-9 text-brand-primary hover:text-brand-primary-light"
+            onClick={() => router.push('/log-catch')}
+        ><PlusIcon className="h-full w-full" /></button>
+
+        <Link
+            href="/profile"
+            aria-label="Profile"
+            className="h-9 w-9 rounded-full border border-red-300 p-0.5"
         >
-          <ArrowLeftIcon className="h-full w-full"/>
-        </button>
-
-        <h1 className="font-title text-2xl font-bold">{selected === 'User' ? 'Home' : 'Explore'}</h1>
-
-        <Link href="/profile" aria-label="Profile" className="h-9 w-9 rounded-full border border-red-300 p-0.5">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/betta.jpg" alt="" className="h-full w-full rounded-full object-cover" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+                src="/betta.jpg"
+                alt=""
+                className="h-full w-full rounded-full object-cover"
+            />
         </Link>
-      </header>
+    </div>
+</header>
 
       <div className="my-4 border-b border-zinc-200" />
 
