@@ -23,38 +23,6 @@ class SQLBatchGenerator:
         self.postgis_enabled = postgis_enabled
         self.lines: List[str] = []
 
-    # ---------- Generate taxa -------------
-
-    def insert_taxa(self, output_path: Path, num_taxa: int = 5) -> int:
-        taxa = [
-            ("Largemouth Bass", "Micropterus salmoides", "Centrarchidae", "Micropterus"),
-            ("Bluegill", "Lepomis macrochirus", "Centrarchidae", "Lepomis"),
-            ("Yellow Perch", "Perca flavescens", "Percidae", "Perca"),
-            ("Northern Pike", "Esox lucius", "Esocidae", "Esox"),
-            ("Walleye", "Sander vitreus", "Percidae", "Sander")
-        ]
-
-        rows = []
-
-        for i, (common, scientific, family, genus) in enumerate(taxa, start=1):
-            taxon_id = f"20000000-0000-4000-8000-{i:012d}"
-
-            rows.append([
-                self.nvl(taxon_id),
-                self.esc(common),
-                self.esc(scientific),
-                self.esc(family),
-                self.esc(genus),
-                self.esc(f"Synthetic catch data for {common}."),
-                "CURRENT_TIMESTAMP"
-            ])
-
-        return self.emit_batches(
-            "fish_taxa",
-            ["taxon_id", "common_name", "scientific_name", "family", "genus", "description", "created_at"],
-            rows
-        )
-
     # ---------- value formatting ----------
 
     @staticmethod
@@ -164,9 +132,6 @@ def main():
         batch_size=1000,
         on_conflict="DO NOTHING",   # idempotent re-runs; change if you want upserts
     )
-
-    gen.lines.append("-- ===== fish_taxa =====\n")
-    gen.insert_taxa(out, num_taxa=5)
 
     gen.lines.append("-- ===== users =====\n")
     gen.emit_batches(
