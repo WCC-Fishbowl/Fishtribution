@@ -1,8 +1,11 @@
-export default function Home() {
-// app/(tabs)/home/page.tsx
+import { redirect} from "next/navigation";
+import { authServer } from "@/lib/auth/guard"
+
+export default async function SplashPage() {
+  const session = await authServer(true);
+  redirect("home/");
+
   return (
-    <div className="min-h-screen bg-bg-primary flex flex-col items-center justify-center pb-20">
-      <div className="text-9xl mb-4 cursor-default">🐟</div>
-    </div>
+    <h1>Splash!</h1>
   )
 }

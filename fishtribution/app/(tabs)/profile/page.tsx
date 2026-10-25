@@ -1,3 +1,7 @@
-export default function ProfilePage() {
-  return <h1 className="text-2xl font-bold p-4">Profile</h1>
+import { authServer } from "@/lib/auth/guard";
+
+export default async function ProfilePage() {
+  const session = await authServer(true);
+
+  return <p className="text-3xl font-bold p-4">Profile</p>
 }
