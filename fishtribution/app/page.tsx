@@ -1,24 +1,10 @@
-'use client'
-
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
-
-const SHOW_MS = 3900
-const FADE_MS = 700
+import { redirect } from "next/navigation"
 
 export default function SplashPage() {
-  const router = useRouter()
-  const [fadingOut, setFadingOut] = useState(false)
-
-  useEffect(() => {
-    const fadeTimer = setTimeout(() => setFadingOut(true), SHOW_MS)
-    const navTimer = setTimeout(() => router.replace('/login'), SHOW_MS + FADE_MS + 100)
-    return () => {
-      clearTimeout(fadeTimer)
-      clearTimeout(navTimer)
-    }
-  }, [router])
-
+  let user = null;
+  if ( user == null ) {
+    redirect("/login");
+  }
   return (
     <div
       className={`flex h-screen items-center justify-center bg-white transition-opacity duration-700 ${

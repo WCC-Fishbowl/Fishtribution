@@ -1,0 +1,149 @@
+[
+  {
+    "common_name": "Coho salmon",
+    "scientific_name": "Oncorhynchus kisutch",
+    "family": "Salmonidae",
+    "genus": "Oncorhynchus",
+    "description": "The coho salmon (Oncorhynchus kisutch) is a species of anadromous fish in the salmon family and one of the six Pacific salmon species. Coho salmon are also known as silver salmon (or \"silvers\") and is often sold as medium red salmon."
+  },
+  {
+    "common_name": "Rainbow trout / steelhead",
+    "scientific_name": "Oncorhynchus mykiss",
+    "family": "Salmonidae",
+    "genus": "Oncorhynchus",
+    "description": "The rainbow trout (Oncorhynchus mykiss) is a species of trout native to cold-water tributaries of the Pacific Ocean in North America and Asia. The steelhead (sometimes called steelhead trout) is an anadromous (sea-run) form of the coastal rainbow trout (O. m. irideus) or Columbia River redband trout (O. m. gairdneri) that usually returns to freshwater to spawn after living two to three years in the ocean."
+  },
+  {
+    "common_name": "Brown trout",
+    "scientific_name": "Salmo trutta",
+    "family": "Salmonidae",
+    "genus": "Salmo",
+    "description": "The brown trout (Salmo trutta) is a species of carnivorous ray-finned fish and the most widely distributed species of the salmonid genus Salmo, endemic to most of Europe, West Asia and parts of North Africa, and has been widely introduced globally as a game fish, even becoming one of the world's worst invasive species outside of its native range."
+  },
+  {
+    "common_name": "Brook trout",
+    "scientific_name": "Salvelinus fontinalis",
+    "family": "Salmonidae",
+    "genus": "Salvelinus",
+    "description": "The brook trout (Salvelinus fontinalis) is a species of freshwater fish in the char genus Salvelinus of the salmon family Salmonidae native to Eastern North America in the United States and Canada. the brook trout is characterized by its distinctive olive-green body with yellow and blue-rimmed red spots, white and black edged orange fins, and dorsal vermiculation."
+  },
+  {
+    "common_name": "Lake trout",
+    "scientific_name": "Salvelinus namaycush",
+    "family": "Salmonidae",
+    "genus": "Salvelinus",
+    "description": "The lake trout (Salvelinus namaycush) is a freshwater char living mainly in lakes in Northern North America. Other names for it include mackinaw, namaycush, lake char (or charr), touladi, togue, laker, and grey trout."
+  },
+  {
+    "common_name": "Lake whitefish",
+    "scientific_name": "Coregonus clupeaformis",
+    "family": "Salmonidae",
+    "genus": "Coregonus",
+    "description": "The lake whitefish (Coregonus clupeaformis) is a species of freshwater whitefish from North America. Lake whitefish are found throughout much of Canada and parts of the northern United States, including all of the Great Lakes. The lake whitefish is sometimes referred to as a \"humpback\" fish due because of its small head size in relation to the length of the body."
+  },
+  {
+    "common_name": "Walleye",
+    "scientific_name": "Sander vitreus",
+    "family": "Percidae",
+    "genus": "Sander",
+    "description": "The walleye (Sander vitreus, synonym Stizostedion vitreum), also called the walleyed pike,[3] yellow pike, yellow pikeperch or yellow pickerel, is a freshwater perciform fish native to most of Canada and to the Northern United States. It is a North American close relative of the European zander, also known as the pikeperch."
+  },
+  {
+    "common_name": "Yellow perch",
+    "scientific_name": "Perca flavescens",
+    "family": "Percidae",
+    "genus": "Perca",
+    "description": "The yellow perch (Perca flavescens), commonly referred to as perch, striped perch, American perch or preacher is a freshwater ray-finned fish from the perch family Percidae, native to much of central North America, particularly the Great Lakes–St. Lawrence River basin and the Upper Mississippi River catchment (which connects to the former via canals). It was first described in 1814 by Samuel Latham Mitchill from New York, and is closely related and morphologically similar to the European perch (Perca fluviatilis), and is sometimes considered a subspecies of its European counterpart."
+  },
+  {
+    "common_name": "Northern pike",
+    "scientific_name": "Esox lucius",
+    "family": "Esocidae",
+    "genus": "Esox",
+    "description": "The northern pike (Esox lucius), also known as jack, northern or simply pike, is a species of carnivorous fish of the genus Esox (pikes). It is commonly found in fresh waters of the Northern Hemisphere (i.e. it has a holarctic distribution)."
+  },
+  {
+    "common_name": "Muskellunge (muskie)",
+    "scientific_name": "Esox masquinongy",
+    "family": "Esocidae",
+    "genus": "Esox",
+    "description": "The muskellunge (Esox masquinongy), often shortened to muskie, musky, ski, or lunge, is a species of large freshwater predatory fish native to North America. It is the largest member of the pike family, Esocidae."
+  },
+  {
+    "common_name": "Largemouth bass",
+    "scientific_name": "Micropterus salmoides",
+    "family": "Centrarchidae",
+    "genus": "Micropterus",
+    "description": "The largemouth bass (Micropterus nigricans) is a carnivorous, freshwater, ray-finned fish in the Centrarchidae (sunfish) family, native to the eastern and central United States, southeastern Canada and northern Mexico."
+  },
+  {
+    "common_name": "Smallmouth bass",
+    "scientific_name": "Micropterus dolomieu",
+    "family": "Centrarchidae",
+    "genus": "Micropterus",
+    "description": "The smallmouth bass (Micropterus dolomieu) is a species of freshwater fish in the sunfish family (Centrarchidae) of the order Centrarchiformes. It is the type species of its genus Micropterus (black basses), and is a popular game fish sought by anglers throughout the temperate zones of North America, and has been spread by stocking —as well as illegal introductions—to many cool-water tributaries and lakes in Canada and more so introduced in the United States."
+  },
+  {
+    "common_name": "Bluegill",
+    "scientific_name": "Lepomis macrochirus",
+    "family": "Centrarchidae",
+    "genus": "Lepomis",
+    "description": "The bluegill (Lepomis macrochirus), sometimes referred to as \"bream\", \"brim\", \"sunny\", or, in Texas, \"copper nose\", is a species of North American freshwater fish, native to and commonly found in streams, rivers, lakes, ponds and wetlands east of the Rocky Mountains. It is from the family Centrarchidae (sunfishes, crappies and black basses) in the order Centrarchiformes."
+  },
+  {
+    "common_name": "Pumpkinseed",
+    "scientific_name": "Lepomis gibbosus",
+    "family": "Centrarchidae",
+    "genus": "Lepomis",
+    "description": "The pumpkinseed (Lepomis gibbosus), also referred to as sun perch, pond perch, common sunfish, punkie, sunfish, sunny, and kivver, is a small to medium–sized freshwater fish of the genus Lepomis (true sunfishes), from the sunfish family (Centrarchidae) in the order Centrarchiformes. It is endemic to eastern North America."
+  },
+  {
+    "common_name": "Black crappie",
+    "scientific_name": "Pomoxis nigromaculatus",
+    "family": "Centrarchidae",
+    "genus": "Pomoxis",
+    "description": "The black crappie (Pomoxis nigromaculatus) is a freshwater fish in the sunfish family (Centrarchidae). It is endemic to North America, one of the two types of crappies. It is very similar to the white crappie (P. annularis) in size, shape, and habits, except that it is darker, with a pattern of black spots."
+  },
+  {
+    "common_name": "Rock bass",
+    "scientific_name": "Ambloplites rupestris",
+    "family": "Centrarchidae",
+    "genus": "Ambloplites",
+    "description": "The rock bass (Ambloplites rupestris), also known as the rock perch, goggle-eye, red eye, and black perch, is a freshwater fish native to east-central North America. This red-eyed fish is a species of freshwater fish in the sunfish family (Centrarchidae) of order Centrarchiformes and can be distinguished from other similar species by the six spines in the anal fin (other sunfish have only three anal fin spines)."
+  },
+  {
+    "common_name": "Channel catfish",
+    "scientific_name": "Ictalurus punctatus",
+    "family": "Ictaluridae",
+    "genus": "Ictalurus",
+    "description": "The channel catfish (Ictalurus punctatus), known informally as the \"channel cat\", is a species of catfish native to North America. They are North America's most abundant catfish species, and the official state fish of Kansas, Missouri, Nebraska and Tennessee. The channel catfish is the most fished species of catfish in the United States, with around 8 million anglers angling them per year."
+  },
+  {
+    "common_name": "Lake sturgeon",
+    "scientific_name": "Acipenser fulvescens",
+    "family": "Acipenseridae",
+    "genus": "Acipenser",
+    "description": "The lake sturgeon (Huso fulvescens), also known as the rock sturgeon, is a North American temperate freshwater fish, one of 27 species of sturgeon. Like other sturgeons, this species is a bottom feeder and has a partly cartilaginous skeleton, an overall streamlined shape, and skin bearing rows of bony plates on the sides and back."
+  },
+  {
+    "common_name": "Common carp",
+    "scientific_name": "Cyprinus carpio",
+    "family": "Cyprinidae",
+    "genus": "Cyprinus",
+    "description": "The common carp (Cyprinus carpio), also known as European carp, Eurasian carp, or simply carp, is a widespread freshwater fish of eutrophic waters in lakes and large rivers in Europe and Asia. The native wild populations are considered vulnerable to extinction by the International Union for Conservation of Nature (IUCN), but the species has also been domesticated and introduced (see aquaculture) into environments worldwide, and is often considered an invasive species, being included in the list of the world's 100 worst invasive species. It gives its name to the carp family, Cyprinidae."
+  },
+  {
+    "common_name": "Freshwater drum (sheepshead)",
+    "scientific_name": "Aplodinotus grunniens",
+    "family": "Sciaenidae",
+    "genus": "Aplodinotus",
+    "description": "The freshwater drum, Aplodinotus grunniens, is a fish endemic to North and Central America. It is the only species in the genus Aplodinotus,[3] and is a member of the family Sciaenidae. It is the only North American member of the group that inhabits freshwater for its entire life."
+  },
+  {
+    "common_name": "Burbot (eelpout / lawyer)",
+    "scientific_name": "Lota lota",
+    "family": "Lotidae",
+    "genus": "Lota",
+    "description": "The burbot (Lota lota), also known as bubbot, mariah, loche, cusk, freshwater cod, freshwater ling, freshwater cusk, the lawyer, coney-fish, lingcod, or eelpout, is a species of coldwater ray-finned fish native to the subarctic regions of the Northern Hemisphere. It is the only member of the genus Lota, and is the only freshwater species of the order Gadiformes. The species is closely related to marine fish such as the common ling and cusk, all of which belong to the family Lotidae (rocklings)."
+  }
+]

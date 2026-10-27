@@ -1,0 +1,8 @@
+Faker
+numpy
+pandas
+matplotlib
+noise
+geopandas
+shapely
+requests

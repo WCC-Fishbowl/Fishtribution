@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { IBM_Plex_Mono, Inter, Merriweather } from "next/font/google";
 import localFont from "next/font/local";
 
+import { Providers } from '@/app/providers';
+
 const plexMono = IBM_Plex_Mono ({
   weight: "400",
   style: "normal",
@@ -34,7 +36,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${inter.variable} ${merriweather.variable} ${plexMono.variable} ${clashDisplay.variable}`} suppressHydrationWarning>
       <body className="min-h-dvh overflow-y-auto">
-        {children}
+        <Providers >
+          {children}
+        </Providers>
       </body>
     </html>
   )
