@@ -1,14 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link'
-import { Fish } from '@/types/Fish'
+import { FishTaxon } from '@/types/FishTaxon'
 
 // Wide card: image on one side, text on the other
-export function FishRow({ fish, imageSide }: { fish: Fish; imageSide: 'left' | 'right' }) {
+export function FishRow({ fishTaxon, imageSide }: { fishTaxon: FishTaxon; imageSide: 'left' | 'right' }) {
   return (
     <div className={`flex gap-3 ${imageSide === 'right' ? 'flex-row-reverse' : ''}`}>
       <img
-        src={fish.image}
-        alt={fish.name}
+        /*src={fish.image}*/
+        src="/betta/jpg"
+        alt={fishTaxon.common_name}
         className={`h-24 w-32 shrink-0 rounded-md object-cover ${
           imageSide === 'left'
             ? 'shadow-[inset_5px_4px_4px_0px_rgba(0,0,0,0.25)]'
@@ -16,9 +17,9 @@ export function FishRow({ fish, imageSide }: { fish: Fish; imageSide: 'left' | '
         }`}
       />
       <div className="flex flex-1 flex-col">
-        <h3 className="font-title text-2xl font-bold leading-8 text-slate-700">{fish.name}</h3>
-        <p className="text-[10px] leading-5 text-slate-400">{fish.description}</p>
-        <Link href={`/explore/${fish.id}`} className="mt-auto self-end text-[10px] font-bold text-black">
+        <h3 className="font-title text-2xl font-bold leading-8 text-slate-700">{fishTaxon.common_name}</h3>
+        <p className="text-[10px] leading-5 text-slate-400">{fishTaxon.description}</p>
+        <Link href={`/explore/${fishTaxon.taxon_id}`} className="mt-auto self-end text-[10px] font-bold text-black">
           More
         </Link>
       </div>
@@ -27,18 +28,23 @@ export function FishRow({ fish, imageSide }: { fish: Fish; imageSide: 'left' | '
 }
 
 // Compact card: image and text panel stacked, either order
-export function FishTile({ fish, imagePosition }: { fish: Fish; imagePosition: 'top' | 'bottom' }) {
+export function FishTile({ fishTaxon, imagePosition }: { fishTaxon: FishTaxon; imagePosition: 'top' | 'bottom' }) {
   return (
     <div
       className={`flex overflow-hidden rounded-md shadow-[6px_7px_4px_0px_rgba(0,0,0,0.25)] ${
         imagePosition === 'top' ? 'flex-col' : 'flex-col-reverse'
       }`}
     >
-      <img src={fish.image} alt={fish.name} className="h-24 w-full object-cover" />
+      <img
+        /*src={fish.image}*/
+        src="/betta.jpg"
+        alt={fishTaxon.common_name}
+        className="h-24 w-full object-cover"
+      />
       <div className="relative h-24 bg-white p-2">
-        <h3 className="font-title text-xs font-bold text-slate-700">{fish.name}</h3>
-        <p className="mt-1 line-clamp-4 text-[7px] leading-3 text-slate-400">{fish.description}</p>
-        <Link href={`/explore/${fish.id}`} className="absolute bottom-1 right-2 text-[8px] font-bold text-black">
+        <h3 className="font-title text-xs font-bold text-slate-700">{fishTaxon.common_name}</h3>
+        <p className="mt-1 line-clamp-4 text-[7px] leading-3 text-slate-400">{fishTaxon.description}</p>
+        <Link href={`/explore/${fishTaxon.taxon_id}`} className="absolute bottom-1 right-2 text-[8px] font-bold text-black">
           More
         </Link>
       </div>

@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
-import { Catch } from '@/types/Catch';
+import { CatchWithRelations } from '@/types/CatchWithRelations';
 
 interface CatchRowProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    catchRecord: Catch;
+    catchRecord: CatchWithRelations;
     showUser: boolean;
     imageSide?: 'left' | 'right';
 }
@@ -27,8 +27,9 @@ export default function CatchRow({
         <button type="button" className={combinedClasses} {...props}>
             <div className="flex w-32 shrink-0 flex-col gap-1">
                 <img
-                    src={catchRecord.images.length === 0 ? '/betta.jpg' : catchRecord.images[0]}
-                    alt={catchRecord.fish.name}
+                    /*src={catchRecord.images.length === 0 ? '/betta.jpg' : catchRecord.images[0]}*/
+                    src="/betta.jpg"
+                    alt={catchRecord.fishTaxon.scientific_name}
                     className={`h-24 w-32 shrink-0 rounded-md object-cover ${imageSide === 'left'
                         ? 'shadow-[inset_5px_4px_4px_0px_rgba(0,0,0,0.25)]'
                         : 'shadow-[inset_-5px_4px_4px_0px_rgba(0,0,0,0.25)]'
@@ -37,13 +38,18 @@ export default function CatchRow({
             </div>
             <div className="w-full flex flex-1 flex-col self-stretch">
                 <h3 className="font-title text-xl font-bold leading-none text-slate-700">
-                    {catchRecord.fish.name}
+                    {catchRecord.fishTaxon.common_name}
                 </h3>
                 <p className="text-[10px] font-bold leading-5 text-slate-700">
-                    {catchRecord.fish.scientific_name}
+                    {catchRecord.fishTaxon.scientific_name}
                 </p>
                 <p className="mt-auto text-[8px] leading-5 text-slate-400 truncate">
-                    {`${catchRecord.date}${showUser ? " ・ " + catchRecord.username : ""}`}
+                    {`${catchRecord.catchRecord.caught_at.getMonth() + "/" + catchRecord.catchRecord.caught_at.getDay()}${showUser
+                        ? " ・ " + (catchRecord.user.display_name
+                            ? catchRecord.user.display_name
+                            : catchRecord.user.username)
+                        : ""
+                    }`}
                 </p>
             </div>
             {children}
@@ -52,7 +58,7 @@ export default function CatchRow({
 }
 
 interface CatchTileProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    catchRecord: Catch;
+    catchRecord: CatchWithRelations;
     showUser: boolean;
     imagePosition?: 'top' | 'bottom';
 }
@@ -76,19 +82,25 @@ export function CatchTile({
     return (
         <button type="button" className={combinedClasses} {...props}>
             <img
-                src={catchRecord.images.length === 0 ? '/betta.jpg' : catchRecord.images[0]}
-                alt={catchRecord.fish.name}
+                /*src={catchRecord.images.length === 0 ? '/betta.jpg' : catchRecord.images[0]}*/
+                src="/betta.jpg"
+                alt={catchRecord.fishTaxon.scientific_name}
                 className="h-22 w-full shrink-0 object-cover"
             />
             <div className="flex h-24 w-full flex-col bg-white p-2">
                 <h3 className="font-title text-lg font-bold leading-none text-slate-700">
-                    {catchRecord.fish.name}
+                    {catchRecord.fishTaxon.common_name}
                 </h3>
                 <p className="mt-1 line-clamp-2 text-[8px] leading-3 font-bold text-slate-700">
-                    {catchRecord.fish.scientific_name}
+                    {catchRecord.fishTaxon.scientific_name}
                 </p>
                 <p className="mt-auto text-[6px] leading-3 text-slate-400 truncate">
-                    {`${catchRecord.date}${showUser ? " ・ " + catchRecord.username : ""}`}
+                    {`${catchRecord.catchRecord.caught_at.getMonth() + "/" + catchRecord.catchRecord.caught_at.getDay()}${showUser
+                        ? " ・ " + (catchRecord.user.display_name
+                            ? catchRecord.user.display_name
+                            : catchRecord.user.username)
+                        : ""
+                    }`}
                 </p>
             </div>
             {children}
