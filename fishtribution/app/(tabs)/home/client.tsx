@@ -1,13 +1,14 @@
 'use client'
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
-import CatchRow from '@/components/CatchCard';
-import { CatchTile } from '@/components/CatchCard';
+import CatchRow, { CatchTile } from '@/components/CatchCard';
 import { useRouter } from 'next/navigation';
 import { ArrowLeftIcon, MagnifyingGlassIcon, PlusIcon } from '@heroicons/react/24/outline';
-import { CatchWithRelations, CatchWithRelationsSearch, defaultCatchWithRelationsSearch } from '@/types/CatchWithRelations';
+import { CatchWithRelations, defaultCatchWithRelationsSearch } from '@/types/CatchWithRelations';
 import { searchCatches } from '@/actions/catch';
+import { useLocationStore } from '@/stores/LocationStore';
+import FilterPopover from '@/components/FilterPopover';
 
 export type FeedType = "User" | "Local" | "Global";
 
@@ -16,7 +17,8 @@ export function useSearchCatches() {
     useState(defaultCatchWithRelationsSearch);
 
     async function search(feed: FeedType) {
-      return searchCatches(feed, filters);
+      const user_loc = await useLocationStore.getState().getLocation();
+      return searchCatches(feed, user_loc, filters);
     }
 
     return { filters, setFilters, search };
@@ -31,6 +33,8 @@ type HomeClientProps = {
 export default function HomeClient({ catchesParam }: HomeClientProps) {
   const [selectedFeed, setSelectedFeed] = useState<"User" | "Local" | "Global">('User')
   const [catches, setCatches] = useState(catchesParam);
+  const [isLoading, setIsLoading] = useState(false);
+  const [filterMenuOpen, setFilterMenuOpen] = useState(false);
   const { filters, setFilters, search } = useSearchCatches();
   const router = useRouter();
 
@@ -54,33 +58,26 @@ export default function HomeClient({ catchesParam }: HomeClientProps) {
         <div className="flex items-center justify-self-end gap-2">
           <button
             type="button"
-            aria-label="First action"
+            aria-label="Search/Filter"
             className="h-9 w-9 text-brand-primary hover:text-brand-primary-light"
-            onClick={() => console.log("Search/Filter")}
+            onClick={() => setFilterMenuOpen((open) => !open)}
           ><MagnifyingGlassIcon className="h-full w-full" /></button>
 
-        <button
-            type="button"
-            aria-label="Second action"
-            className="h-9 w-9 text-brand-primary hover:text-brand-primary-light"
-            onClick={() => router.push('/log-catch')}
-        ><PlusIcon className="h-full w-full" /></button>
+          <span className="relative">
+            <button
+              type="button"
+              aria-label="Add catch"
+              className="h-9 w-9 text-brand-primary hover:text-brand-primary-light"
+              onClick={() => router.push('/log-catch')}
+            ><PlusIcon className="h-full w-full" /></button>
 
-        <Link
-            href="/profile"
-            aria-label="Profile"
-            className="h-9 w-9 rounded-full border border-red-300 p-0.5"
-        >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-                src="/betta.jpg"
-                alt=""
-                className="h-full w-full rounded-full object-cover"
+            <FilterPopover
+              isOpen={filterMenuOpen}
+              onClose={() => setFilterMenuOpen(false)}
             />
-        </Link>
-    </div>
-</header>
-
+          </span>
+        </div>
+      </header>
       <div className="my-4 border-b border-zinc-200" />
 
       {/* Segmented control */}
@@ -89,16 +86,19 @@ export default function HomeClient({ catchesParam }: HomeClientProps) {
           <button
             key={feed}
             onClick={async () => {
-              setSelectedFeed(feed);
-              const results = await search(feed);
-              setCatches(results);
+              setIsLoading(true);
+              try {
+                setSelectedFeed(feed);
+                const results = await search(feed);
+                setCatches(results);
+              } finally {
+                setIsLoading(false);
+              }
             }}
             className={`flex-1 rounded-xl px-3 py-2 text-xs font-bold ${
               selectedFeed === feed ? 'bg-white text-neutral-800' : 'text-zinc-500'
             }`}
-          >
-            {feed}
-          </button>
+          >{feed}</button>
         ))}
       </div>
 
@@ -108,6 +108,7 @@ export default function HomeClient({ catchesParam }: HomeClientProps) {
           catchRecord={catches[0]}
           showUser={selectedFeed !== 'User'}
           imageSide="left"
+          isLoading={isLoading}
           onClick={() => router.push(`/catch/${catches[0].catchRecord.catch_id}`)}
         />
         <div className="grid grid-cols-2 gap-4">
@@ -115,12 +116,14 @@ export default function HomeClient({ catchesParam }: HomeClientProps) {
             catchRecord={catches[1]}
             showUser={selectedFeed !== 'User'}
             imagePosition="top"
+            isLoading={isLoading}
             onClick={() => router.push(`/catch/${catches[1].catchRecord.catch_id}`)}
           />
           <CatchTile
             catchRecord={catches[2]}
             showUser={selectedFeed !== 'User'}
             imagePosition="bottom"
+            isLoading={isLoading}
             onClick={() => router.push(`/catch/${catches[2].catchRecord.catch_id}`)}
           />
         </div>
@@ -128,6 +131,7 @@ export default function HomeClient({ catchesParam }: HomeClientProps) {
           catchRecord={catches[3]}
           showUser={selectedFeed !== 'User'}
           imageSide="right"
+          isLoading={isLoading}
           onClick={() => router.push(`/catch/${catches[3].catchRecord.catch_id}`)}
         />
       </div>

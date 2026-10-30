@@ -5,6 +5,7 @@ import { Catch } from '@/types/Catch';
 import { User } from '@/types/User';
 import { FishTaxon } from '@/types/FishTaxon';
 import { CatchWithRelationsSearch } from '@/types/CatchWithRelations';
+import { Point } from 'geojson';
 
 export type Session = {
   user: {
@@ -121,6 +122,7 @@ export async function getUserSettings(session: Session) {
 
 export async function getCatchesWithRelations(
   session: Session | null,
+  user_loc: Point | null,
   params: CatchWithRelationsSearch,
 ): Promise<CatchWithRelations[]> {
   const catches = await sql`
@@ -141,18 +143,21 @@ export async function getCatchesWithRelations(
       ${params.bait_lure_select}::text IS NULL
       OR catches.bait_or_lure = ${params.bait_lure_select}
     ) AND (
-      ${params.pos}::geography IS NULL
-      OR ST_DWithin(
-        catches.pos,
-        ST_SetSRID(
-          ST_MakePoint(
-            ${params.pos?.coordinates[0]},
-            ${params.pos?.coordinates[1]}
-          ),
-          4326
-        )::geography,
-        15000
-      )
+      ${user_loc == null
+        ? sql`TRUE`
+        : sql`catches.pos IS NOT NULL
+        AND ST_DWithin(
+          catches.pos,
+          ST_SetSRID(
+            ST_MakePoint(
+              ${user_loc.coordinates[0]},
+              ${user_loc.coordinates[1]}
+            ),
+            4326
+          )::geography,
+          15000
+        )`
+      }
     ) AND (
       ${params.date_select}::time IS NULL
       OR catches.caught_at < ${params.date_select}

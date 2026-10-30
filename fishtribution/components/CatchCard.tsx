@@ -5,12 +5,14 @@ interface CatchRowProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     catchRecord: CatchWithRelations;
     showUser: boolean;
     imageSide?: 'left' | 'right';
+    isLoading?: boolean;
 }
 
 export default function CatchRow({
     catchRecord,
     showUser = false,
     imageSide = 'left',
+    isLoading = false,
     className = '',
     children,
     ...props
@@ -38,18 +40,21 @@ export default function CatchRow({
             </div>
             <div className="w-full flex flex-1 flex-col self-stretch">
                 <h3 className="font-title text-xl font-bold leading-none text-slate-700">
-                    {catchRecord.fishTaxon.common_name}
+                    {isLoading ? "Loading..." : catchRecord.fishTaxon.common_name}
                 </h3>
                 <p className="text-[10px] font-bold leading-5 text-slate-700">
-                    {catchRecord.fishTaxon.scientific_name}
+                    {isLoading ? "Loading..." : catchRecord.fishTaxon.scientific_name}
                 </p>
                 <p className="mt-auto text-[8px] leading-5 text-slate-400 truncate">
-                    {`${catchRecord.catchRecord.caught_at.getMonth() + "/" + catchRecord.catchRecord.caught_at.getDay()}${showUser
-                        ? " ・ " + (catchRecord.user.display_name
-                            ? catchRecord.user.display_name
-                            : catchRecord.user.username)
-                        : ""
-                    }`}
+                    {isLoading
+                        ? "Loading..."
+                        : `${catchRecord.catchRecord.caught_at.getMonth() + "/" + catchRecord.catchRecord.caught_at.getDay() + "/" + catchRecord.catchRecord.caught_at.getFullYear()}${showUser
+                            ? " ・ " + (catchRecord.user.display_name
+                                ? catchRecord.user.display_name
+                                : catchRecord.user.username)
+                            : ""
+                        }`
+                    }
                 </p>
             </div>
             {children}
@@ -61,12 +66,14 @@ interface CatchTileProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     catchRecord: CatchWithRelations;
     showUser: boolean;
     imagePosition?: 'top' | 'bottom';
+    isLoading?: boolean;
 }
 
 export function CatchTile({
     catchRecord,
     showUser = false,
     imagePosition = 'top',
+    isLoading = false,
     className = '',
     children,
     ...props
@@ -89,18 +96,21 @@ export function CatchTile({
             />
             <div className="flex h-24 w-full flex-col bg-white p-2">
                 <h3 className="font-title text-lg font-bold leading-none text-slate-700">
-                    {catchRecord.fishTaxon.common_name}
+                    {isLoading ? "Loading..." : catchRecord.fishTaxon.common_name}
                 </h3>
                 <p className="mt-1 line-clamp-2 text-[8px] leading-3 font-bold text-slate-700">
-                    {catchRecord.fishTaxon.scientific_name}
+                    {isLoading ? "Loading..." : catchRecord.fishTaxon.scientific_name}
                 </p>
                 <p className="mt-auto text-[6px] leading-3 text-slate-400 truncate">
-                    {`${catchRecord.catchRecord.caught_at.getMonth() + "/" + catchRecord.catchRecord.caught_at.getDay()}${showUser
-                        ? " ・ " + (catchRecord.user.display_name
-                            ? catchRecord.user.display_name
-                            : catchRecord.user.username)
-                        : ""
-                    }`}
+                    {isLoading
+                        ? "Loading..."
+                        : `${catchRecord.catchRecord.caught_at.getMonth() + "/" + catchRecord.catchRecord.caught_at.getDay() + "/" + catchRecord.catchRecord.caught_at.getFullYear()}${showUser
+                            ? " ・ " + (catchRecord.user.display_name
+                                ? catchRecord.user.display_name
+                                : catchRecord.user.username)
+                            : ""
+                        }`
+                    }
                 </p>
             </div>
             {children}

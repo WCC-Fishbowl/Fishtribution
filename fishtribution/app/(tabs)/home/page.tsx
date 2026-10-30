@@ -9,6 +9,6 @@ export default async function HomePage() {
   const session: Session | null = !sessionWrapper.error
     ? sessionWrapper.data
     : null;
-  const catches = await getCatchesWithRelations(session, defaultCatchWithRelationsSearch);
+  const catches = await getCatchesWithRelations(session, null, defaultCatchWithRelationsSearch);
   return <HomeClient catchesParam={catches} />;
 }
