@@ -37,7 +37,8 @@ CREATE TABLE fish_taxa (
 
 CREATE TABLE catches (
     catch_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID NOT NULL REFERENCES users(user_id) ON DELETE RESTRICT,
+    -- NOTE: NOT NULL removed from catches.user_id 2026-10-25 in order to allow soft deletion.
+    user_id UUID REFERENCES users(user_id) ON DELETE RESTRICT,
     taxon_id UUID NOT NULL REFERENCES fish_taxa(taxon_id) ON DELETE RESTRICT,
     weight_kg NUMERIC(10, 3) CHECK (weight_kg > 0),
     length_cm NUMERIC(10, 2) CHECK (length_cm > 0),
