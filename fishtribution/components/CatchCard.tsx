@@ -104,7 +104,7 @@ export function CatchTile({
                 <p className="mt-auto text-[6px] leading-3 text-slate-400 truncate">
                     {isLoading
                         ? "Loading..."
-                        : `${catchRecord.catchRecord.caught_at.getMonth() + "/" + catchRecord.catchRecord.caught_at.getDay() + "/" + catchRecord.catchRecord.caught_at.getFullYear()}${showUser
+                        : `${(catchRecord.catchRecord.caught_at.getMonth() + 1) + "/" + (catchRecord.catchRecord.caught_at.getDay() + 1) + "/" + catchRecord.catchRecord.caught_at.getFullYear()}${showUser
                             ? " ・ " + (catchRecord.user.display_name
                                 ? catchRecord.user.display_name
                                 : catchRecord.user.username)

@@ -1,19 +1,26 @@
 'use client';
 
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import DropdownSelect from "@/components/DropdownSelect";
 import Button from "@/components/Button";
 import TextInput from "@/components/TextInput";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import { CatchWithRelationsSearch } from "@/types/CatchWithRelations";
 
 type FilterPopoverProps = React.HTMLAttributes<HTMLDivElement> & {
     isOpen: boolean;
     onClose: () => void;
+    filters: CatchWithRelationsSearch;
+    setFilters: React.Dispatch<React.SetStateAction<CatchWithRelationsSearch>>;
+    submit: () => Promise<void>;
 };
 
 export default function FilterPopover({
     isOpen,
     onClose,
+    filters,
+    setFilters,
+    submit,
     className = '',
     children,
     ...props
@@ -25,6 +32,8 @@ export default function FilterPopover({
     `.trim().replace(/\s+/g, ' ');
 
     const popoverRef = useRef<HTMLDivElement>(null);
+
+    const [searchInput, setSearchInput] = useState("");
 
     useEffect(() => {
         if (!isOpen) return;
@@ -62,7 +71,12 @@ export default function FilterPopover({
                 {/* Row 2: Search */}
                 <div className="flex flex-col w-full">
                     <p className="text-[8px] ml-1"><span className="text-[11px] font-bold font-title">Search</span> (tuna|user:john_s|taxon:Salmo)</p>
-                    <TextInput className="w-full h-8" placeholder="Search..."/>
+                    <TextInput
+                        className="w-full h-8"
+                        placeholder="Search..."
+                        value={searchInput}
+                        onChange={(e) => setSearchInput(e.target.value)}
+                    />
                 </div>
 
                 {/* Row 3: Bait / Lure */}
@@ -71,9 +85,14 @@ export default function FilterPopover({
                     <DropdownSelect
                         fullWidth
                         name="bait_lure"
+                        value={filters.bait_lure_select ? filters.bait_lure_select : "exclude"}
+                        onChange={(e) => setFilters((prev) => ({
+                            ...prev,
+                            bait_lure_select: e.target.value,
+                        }))}
                         className="h-8 text-[11px]"
-                        defaultValue="unknown"
                     >
+                        <option value="exclude">--</option>
                         <option value="unknown">None/Unknown</option>
                         <option value="fly">Fly</option>
                         <option value="hard-bait">Hard Bait/Crankbait</option>
@@ -94,7 +113,15 @@ export default function FilterPopover({
                 <div className="flex flex-col w-full">
                     <p className="text-[11px] font-bold font-title ml-1">Before:</p>
                     <div className="w-full h-8 border-1 border-gray-400 hover:bg-gray-100 rounded-md items-center p-1">
-                        <input type="date" className="w-full self-center appearance-none text-[11px]" />
+                        <input
+                            type="date"
+                            className="w-full self-center appearance-none text-[11px]"
+                            value={filters.date_select ?? ""}
+                            onChange={(e) => setFilters((prev) => ({
+                                ...prev,
+                                date_select: e.target.value || null,
+                            }))}
+                        />
                     </div>
                 </div>
 
@@ -102,17 +129,61 @@ export default function FilterPopover({
                 <div className="flex w-full items-center gap-1 border-1 border-gray-400 rounded-md p-1">
                     <div className="flex flex-col w-full">
                         <p className="text-[11px] font-bold font-title ml-1">From:</p>
-                        <input type="time" className="min-w-0 h-6 flex-1 text-xs border-gray-400 border-1 hover:bg-gray-100 rounded-sm" />
+                        <input
+                            type="time"
+                            className="min-w-0 h-6 flex-1 text-xs border-gray-400 border-1 hover:bg-gray-100 rounded-sm"
+                            value={filters.time_start_select ?? ""}
+                            onChange={(e) => setFilters((prev) => ({
+                                ...prev,
+                                time_start_select: e.target.value || null,
+                            }))}
+                        />
                     </div>
                     <p className="text-md">:</p>
                     <div className="flex flex-col w-full">
                         <p className="text-[11px] font-bold font-title ml-1">To:</p>
-                        <input type="time" className="min-w-0 h-6 flex-1 text-xs border-gray-400 border-1 hover:bg-gray-100 rounded-sm" />
+                        <input
+                            type="time"
+                            className="min-w-0 h-6 flex-1 text-xs border-gray-400 border-1 hover:bg-gray-100 rounded-sm"
+                            value={filters.time_end_select ?? ""}
+                            onChange={(e) => setFilters((prev) => ({
+                                ...prev,
+                                time_end_select: e.target.value || null,
+                            }))}
+                        />
                     </div>
                 </div>
 
                 {/* Row 6: Submit */}
-                <div className="flex justify-center"><Button>Apply Filters</Button></div>
+                <div className="flex justify-center">
+                    <Button
+                        onClick={() => {
+                            const user_searches: string[] = [];
+                            const taxon_searches: string[] = [];
+                            const searches: string[] = [];
+
+                            searchInput.split(",").forEach((substring) => {
+                                const search = substring.toLowerCase().trim();
+                                if (!search) return;
+                                if (search.startsWith("user:")) {
+                                    user_searches.push(search.slice(5).trim());
+                                } else if (search.startsWith("taxon:")) {
+                                    taxon_searches.push(search.slice(6).trim());
+                                } else {
+                                    searches.push(search);
+                                }
+                            });
+
+                            setFilters((prev) => ({
+                                ...prev,
+                                user_searches: user_searches.length > 0 ? user_searches : null,
+                                taxon_searches: taxon_searches.length > 0 ? taxon_searches : null,
+                                searches: searches.length > 0 ? searches : null,
+                            }));
+                            submit();
+                        }}
+                    >Apply Filters</Button>
+                </div>
             </div>
         </div>
     );

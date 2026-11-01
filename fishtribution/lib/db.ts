@@ -130,55 +130,78 @@ export async function getCatchesWithRelations(
     FROM catches
     JOIN users ON catches.user_id = users.user_id
     JOIN fish_taxa ON catches.taxon_id = fish_taxa.taxon_id
-    WHERE (
-      ${params.taxon_search}::text IS NULL
-      OR fish_taxa.common_name ILIKE '%' || ${params.taxon_search} || '%'
-      OR fish_taxa.scientific_name ILIKE '%' || ${params.taxon_search} || '%'
-    ) AND (
-      ${params.user_search}::text IS NULL
-      OR users.username ILIKE '%' || ${params.user_search} || '%'
-      OR users.display_name ILIKE '%' || ${params.user_search} || '%'
-      ${session ? sql`OR users.user_id = ${session.user.id}` : sql``}
-    ) AND (
-      ${params.bait_lure_select}::text IS NULL
-      OR catches.bait_or_lure = ${params.bait_lure_select}
-    ) AND (
-      ${user_loc == null
-        ? sql`TRUE`
-        : sql`catches.pos IS NOT NULL
-        AND ST_DWithin(
-          catches.pos,
-          ST_SetSRID(
-            ST_MakePoint(
-              ${user_loc.coordinates[0]},
-              ${user_loc.coordinates[1]}
-            ),
-            4326
-          )::geography,
-          15000
-        )`
-      }
-    ) AND (
-      ${params.date_select}::time IS NULL
-      OR catches.caught_at < ${params.date_select}
-    ) AND (
+    WHERE
       (
-        ${params.time_start_select}::time IS NULL
-        OR ${params.time_end_select}::time IS NULL
-      ) OR (
-        ${params.time_start_select} <= ${params.time_end_select}
-        AND catches.caught_at >= ${params.time_start_select}
-        AND catches.caught_at <= ${params.time_end_select}
-      ) OR (
-        ${params.time_start_select} > ${params.time_end_select}
-        AND (
-          catches.caught_at >= ${params.time_start_select}
-          OR catches.caught_at <= ${params.time_end_select}
+        ${params.searches}::text[] IS NULL
+        OR EXISTS(
+          SELECT 1
+          FROM unnest(${params.searches}::text[]) AS term
+          WHERE
+            fish_taxa.common_name ILIKE '%' || term || '%'
+            OR fish_taxa.scientific_name ILIKE '%' || term || '%'
+            OR users.username ILIKE '%' || term || '%'
+            OR users.display_name ILIKE '%' || term || '%'
+        )
+      ) AND (
+        ${params.taxon_searches}::text[] IS NULL
+        OR EXISTS (
+          SELECT 1
+          FROM unnest(${params.taxon_searches}::text[]) AS term
+          WHERE
+            fish_taxa.common_name ILIKE '%' || term || '%'
+            OR fish_taxa.scientific_name ILIKE '%' || term || '%'
+        )
+      ) AND (
+        ${params.user_searches}::text[] IS NULL
+        OR EXISTS (
+          SELECT 1
+          FROM unnest(${params.user_searches}::text[]) AS term
+          WHERE
+            users.username ILIKE '%' || term || '%'
+            OR users.display_name ILIKE '%' || term || '%'
+        )
+        ${session ? sql`OR users.user_id = ${session.user.id}` : sql``}
+      ) AND (
+        ${params.bait_lure_select}::text IS NULL
+        OR catches.bait_or_lure = ${params.bait_lure_select}
+      ) AND (
+        ${user_loc == null
+          ? sql`TRUE`
+          : sql`catches.pos IS NOT NULL
+          AND ST_DWithin(
+            catches.pos,
+            ST_SetSRID(
+              ST_MakePoint(
+                ${user_loc.coordinates[0]},
+                ${user_loc.coordinates[1]}
+              ),
+              4326
+            )::geography,
+            15000
+          )`
+        }
+      ) AND (
+        ${params.date_select}::date IS NULL
+        OR catches.caught_at < ${params.date_select}
+      ) AND (
+        (
+          ${params.time_start_select}::time IS NULL
+          OR ${params.time_end_select}::time IS NULL
+        ) OR (
+          ${params.time_start_select} <= ${params.time_end_select}
+          AND catches.caught_at >= ${params.time_start_select}
+          AND catches.caught_at <= ${params.time_end_select}
+        ) OR (
+          ${params.time_start_select} > ${params.time_end_select}
+          AND (
+            catches.caught_at >= ${params.time_start_select}
+            OR catches.caught_at <= ${params.time_end_select}
+          )
         )
       )
-    )
-    ORDER BY catches.caught_at DESC
-    LIMIT 20;
+    ORDER BY catches.caught_at DESC, catches.catch_id
+    LIMIT 20
+    OFFSET ${params.offset};
   `;
 
   const results: CatchWithRelations[] = [];

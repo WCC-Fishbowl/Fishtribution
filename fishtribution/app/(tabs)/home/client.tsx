@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import CatchRow, { CatchTile } from '@/components/CatchCard';
 import { useRouter } from 'next/navigation';
@@ -35,8 +35,43 @@ export default function HomeClient({ catchesParam }: HomeClientProps) {
   const [catches, setCatches] = useState(catchesParam);
   const [isLoading, setIsLoading] = useState(false);
   const [filterMenuOpen, setFilterMenuOpen] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
   const { filters, setFilters, search } = useSearchCatches();
   const router = useRouter();
+  const bottom = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    if (filters.offset === 0) return;
+
+    async function fetchMore() {
+      const newCatches = await search(selectedFeed);
+      setHasMore(newCatches.length === 20);
+      setCatches((prev) => [...prev, ...newCatches]);
+    }
+
+    fetchMore();
+  }, [filters.offset]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && hasMore) {
+        setFilters((prev) => ({
+          ...prev,
+          offset: prev.offset + 20,
+        }));
+      }
+    });
+
+    if (bottom.current) {
+      observer.observe(bottom.current);
+    }
+
+    return () => observer.disconnect();
+  }, [hasMore]);
 
   return (
     <div className="flex flex-col p-6 pb-24 font-sans">
@@ -74,6 +109,17 @@ export default function HomeClient({ catchesParam }: HomeClientProps) {
             <FilterPopover
               isOpen={filterMenuOpen}
               onClose={() => setFilterMenuOpen(false)}
+              filters={filters}
+              setFilters={setFilters}
+              submit={async () => {
+                setIsLoading(true);
+                try {
+                  const results = await search(selectedFeed);
+                  setCatches(results);
+                } finally {
+                  setIsLoading(false);
+                }
+              }}
             />
           </span>
         </div>
@@ -103,38 +149,19 @@ export default function HomeClient({ catchesParam }: HomeClientProps) {
       </div>
 
       {/* Fish list */}
-      <div className="mt-6 flex flex-col gap-6">
-        <CatchRow
-          catchRecord={catches[0]}
-          showUser={selectedFeed !== 'User'}
-          imageSide="left"
-          isLoading={isLoading}
-          onClick={() => router.push(`/catch/${catches[0].catchRecord.catch_id}`)}
-        />
-        <div className="grid grid-cols-2 gap-4">
+      <div className="mt-6 grid grid-cols-2 gap-6">
+        {catches.map((catchRecord) => (
           <CatchTile
-            catchRecord={catches[1]}
+            key={catchRecord.catchRecord.catch_id}
+            catchRecord={catchRecord}
             showUser={selectedFeed !== 'User'}
             imagePosition="top"
             isLoading={isLoading}
-            onClick={() => router.push(`/catch/${catches[1].catchRecord.catch_id}`)}
+            onClick={() => router.push(`/catch/${catchRecord.catchRecord.catch_id}`)}
           />
-          <CatchTile
-            catchRecord={catches[2]}
-            showUser={selectedFeed !== 'User'}
-            imagePosition="bottom"
-            isLoading={isLoading}
-            onClick={() => router.push(`/catch/${catches[2].catchRecord.catch_id}`)}
-          />
-        </div>
-        <CatchRow
-          catchRecord={catches[3]}
-          showUser={selectedFeed !== 'User'}
-          imageSide="right"
-          isLoading={isLoading}
-          onClick={() => router.push(`/catch/${catches[3].catchRecord.catch_id}`)}
-        />
+        ))}
       </div>
+      <div ref={bottom} />
     </div>
   )
 }
