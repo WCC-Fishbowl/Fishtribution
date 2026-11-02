@@ -107,3 +107,21 @@ export async function getUserSettings(session: Session) {
 
   return data;
 }
+
+export async function uploadCatchImage(
+  session: Session,
+  catchId: string,
+  key: string,
+  fileSize: number,
+  width?: number,
+  height?: number,
+) {
+  const uid = session.user.id;
+  const data = await sql`
+    INSERT INTO images (user_id, catch_id, s3_key, width, height, file_size)
+    VALUES (${uid}, ${catchId}, ${key}, ${width}, ${height}, ${fileSize})
+    RETURNING id;
+  `;
+
+  return data;
+}
