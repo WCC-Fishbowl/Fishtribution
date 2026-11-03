@@ -19,10 +19,13 @@ export default function TestUpload() {
   }
 
   return (
-    <form onSubmit={onSubmit}>
-      <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
-      <button type="submit">Upload</button>
-      {result && <pre>{result}</pre>}
-    </form>
+    <div>
+      <p className="text-3xl font-bold p-4">Upload Test</p>
+      <form onSubmit={onSubmit}>
+        <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
+        <button type="submit">Upload</button>
+        {result && <pre>{result}</pre>}
+      </form>
+    </div>
   );
 }
