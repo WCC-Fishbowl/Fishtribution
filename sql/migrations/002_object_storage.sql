@@ -1,5 +1,5 @@
 CREATE TABLE catch_images (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    image_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     catch_id UUID NOT NULL REFERENCES catches(id) ON DELETE CASCADE,
     
     s3_key TEXT NOT NULL,

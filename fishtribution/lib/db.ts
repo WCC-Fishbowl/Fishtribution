@@ -120,7 +120,7 @@ export async function uploadCatchImage(
   const data = await sql`
     INSERT INTO images (user_id, catch_id, s3_key, width, height, file_size)
     VALUES (${uid}, ${catchId}, ${key}, ${width}, ${height}, ${fileSize})
-    RETURNING id;
+    RETURNING image_id;
   `;
 
   return data;
