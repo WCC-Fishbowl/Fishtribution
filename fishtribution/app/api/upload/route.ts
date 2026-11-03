@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
 
     // 6. Generate preview
     const preview = await sharp(buffer)
-      .resize({ width: 200, height: 200, fit: "cover" })
+      .resize({ width: 270, height: 206, fit: "cover" })
       .jpeg({ quality: 75 })
       .toBuffer();
     await previewFiles.upload(key, preview, { contentType: "image/jpeg" });
