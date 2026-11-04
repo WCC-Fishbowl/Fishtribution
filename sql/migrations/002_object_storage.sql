@@ -1,12 +1,12 @@
 CREATE TABLE catch_images (
     image_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    catch_id UUID NOT NULL REFERENCES catches(id) ON DELETE CASCADE,
+    catch_id UUID NOT NULL REFERENCES catches(catch_id) ON DELETE CASCADE,
     
     s3_key TEXT NOT NULL,
     
     original_filename TEXT,
     mime_type TEXT,
-    file_size_bytes BIGINT,
+    file_size BIGINT,
     width INTEGER,
     height INTEGER,
     

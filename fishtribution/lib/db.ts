@@ -118,8 +118,14 @@ export async function uploadCatchImage(
 ) {
   const uid = session.user.id;
   const data = await sql`
-    INSERT INTO images (user_id, catch_id, s3_key, width, height, file_size)
-    VALUES (${uid}, ${catchId}, ${key}, ${width}, ${height}, ${fileSize})
+    INSERT INTO catch_images (catch_id, s3_key, width, height, file_size)
+    SELECT ${catchId}, ${key}, ${width}, ${height}, ${fileSize}
+    WHERE EXISTS (
+      SELECT 1
+      FROM catches
+      WHERE catch_id = ${catchId}
+        AND user_id = ${uid}
+    )
     RETURNING image_id;
   `;
 

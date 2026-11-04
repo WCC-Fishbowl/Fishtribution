@@ -12,7 +12,7 @@ export default function TestUpload() {
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("catchId", 'testid123');
+    formData.append("catchId", '0000c1be-eaae-4d07-ae1c-3c10979c450b');
 
     const res = await fetch("/api/upload", { method: "POST", body: formData });
     setResult(`Status: ${res.status}\n${JSON.stringify(await res.json(), null, 2)}`);
