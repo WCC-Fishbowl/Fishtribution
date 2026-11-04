@@ -107,3 +107,27 @@ export async function getUserSettings(session: Session) {
 
   return data;
 }
+
+export async function uploadCatchImage(
+  session: Session,
+  catchId: string,
+  key: string,
+  fileSize: number,
+  width?: number,
+  height?: number,
+) {
+  const uid = session.user.id;
+  const data = await sql`
+    INSERT INTO catch_images (catch_id, s3_key, width, height, file_size)
+    SELECT ${catchId}, ${key}, ${width}, ${height}, ${fileSize}
+    WHERE EXISTS (
+      SELECT 1
+      FROM catches
+      WHERE catch_id = ${catchId}
+        AND user_id = ${uid}
+    )
+    RETURNING image_id;
+  `;
+
+  return data;
+}
