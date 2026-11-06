@@ -1,5 +1,12 @@
 import { neon } from '@neondatabase/serverless';
 
+import { CatchWithRelations } from '@/types/CatchWithRelations';
+import { Catch } from '@/types/Catch';
+import { User } from '@/types/User';
+import { FishTaxon } from '@/types/FishTaxon';
+import { CatchWithRelationsSearch } from '@/types/CatchWithRelations';
+import { Point } from 'geojson';
+
 export type Session = {
   user: {
     id: string
@@ -21,6 +28,11 @@ export type Session = {
     updatedAt: Date
   }
 }
+
+console.log(
+  "DATABASE_URL configured:",
+  Boolean(process.env.DATABASE_URL)
+);
 
 const sql = neon(process.env.DATABASE_URL!);
 
@@ -106,6 +118,117 @@ export async function getUserSettings(session: Session) {
   const data = await sql`SELECT * FROM user_settings WHERE user_id = ${uid}`;
 
   return data;
+}
+
+export async function getCatchesWithRelations(
+  session: Session | null,
+  user_loc: Point | null,
+  params: CatchWithRelationsSearch,
+): Promise<CatchWithRelations[]> {
+  const catches = await sql`
+    SELECT catches.*
+    FROM catches
+    JOIN users ON catches.user_id = users.user_id
+    JOIN fish_taxa ON catches.taxon_id = fish_taxa.taxon_id
+    WHERE
+      (
+        ${params.searches}::text[] IS NULL
+        OR EXISTS(
+          SELECT 1
+          FROM unnest(${params.searches}::text[]) AS term
+          WHERE
+            fish_taxa.common_name ILIKE '%' || term || '%'
+            OR fish_taxa.scientific_name ILIKE '%' || term || '%'
+            OR users.username ILIKE '%' || term || '%'
+            OR users.display_name ILIKE '%' || term || '%'
+        )
+      ) AND (
+        ${params.taxon_searches}::text[] IS NULL
+        OR EXISTS (
+          SELECT 1
+          FROM unnest(${params.taxon_searches}::text[]) AS term
+          WHERE
+            fish_taxa.common_name ILIKE '%' || term || '%'
+            OR fish_taxa.scientific_name ILIKE '%' || term || '%'
+        )
+      ) AND (
+        ${params.user_searches}::text[] IS NULL
+        OR EXISTS (
+          SELECT 1
+          FROM unnest(${params.user_searches}::text[]) AS term
+          WHERE
+            users.username ILIKE '%' || term || '%'
+            OR users.display_name ILIKE '%' || term || '%'
+        )
+        ${session ? sql`OR users.user_id = ${session.user.id}` : sql``}
+      ) AND (
+        ${params.bait_lure_select}::text IS NULL
+        OR catches.bait_or_lure = ${params.bait_lure_select}
+      ) AND (
+        ${user_loc == null
+          ? sql`TRUE`
+          : sql`catches.pos IS NOT NULL
+          AND ST_DWithin(
+            catches.pos,
+            ST_SetSRID(
+              ST_MakePoint(
+                ${user_loc.coordinates[0]},
+                ${user_loc.coordinates[1]}
+              ),
+              4326
+            )::geography,
+            15000
+          )`
+        }
+      ) AND (
+        ${params.date_select}::date IS NULL
+        OR catches.caught_at < ${params.date_select}
+      ) AND (
+        (
+          ${params.time_start_select}::time IS NULL
+          OR ${params.time_end_select}::time IS NULL
+        ) OR (
+          ${params.time_start_select} <= ${params.time_end_select}
+          AND catches.caught_at >= ${params.time_start_select}
+          AND catches.caught_at <= ${params.time_end_select}
+        ) OR (
+          ${params.time_start_select} > ${params.time_end_select}
+          AND (
+            catches.caught_at >= ${params.time_start_select}
+            OR catches.caught_at <= ${params.time_end_select}
+          )
+        )
+      )
+    ORDER BY catches.caught_at DESC, catches.catch_id
+    LIMIT 20
+    OFFSET ${params.offset};
+  `;
+
+  const results: CatchWithRelations[] = [];
+
+  for (const catchRecord of catches) {
+    const [user] = await sql`
+      SELECT *
+      FROM users
+      WHERE user_id = ${catchRecord.user_id};
+    `;
+
+    const [fishTaxon] = await sql`
+      SELECT *
+      FROM fish_taxa
+      WHERE taxon_id = ${catchRecord.taxon_id};
+    `;
+
+    if (!user || !fishTaxon) continue;
+
+    results.push({
+      catchRecord: catchRecord as Catch,
+      user: user as User,
+      fishTaxon: fishTaxon as FishTaxon,
+    });
+  }
+
+  return results;
 }
 
 export async function uploadCatchImage(
