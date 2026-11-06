@@ -1,5 +1,12 @@
 [
   {
+    "common_name": "Chinook Salmon",
+    "scientific_name": "Oncorhynchus tshawytscha",
+    "family": "Salmonidae",
+    "genus": "Oncorhynchus",
+    "description": "The Chinook salmon (Oncorhynchus tshawytscha) is the largest and most valuable species of Pacific salmon. Its common name is derived from the Chinookan peoples. Other vernacular names for the species include king salmon, quinnat salmon, tsumen, spring salmon, blackmouth, and tyee salmon. The scientific species name is based on the Russian common name chavycha (чавыча)."
+  },
+  {
     "common_name": "Coho salmon",
     "scientific_name": "Oncorhynchus kisutch",
     "family": "Salmonidae",
