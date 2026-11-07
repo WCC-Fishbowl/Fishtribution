@@ -1,10 +1,6 @@
 // app/page.tsx
-import Map from '@/components/Map'
+import MapClient from "./client";
 
-export default function Page() {
-  return (
-    <div>
-      <Map initialCenter={[-83.75, 42.28]} initialZoom={12} />
-    </div>
-  )
+export default function MapPage() {
+  return <MapClient/>;
 }

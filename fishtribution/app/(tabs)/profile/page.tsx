@@ -1,7 +1,13 @@
-import { authServer } from "@/lib/auth/guard";
+import ProfileView, { type Profile } from '@/components/ProfileView'
 
-export default async function ProfilePage() {
-  const session = await authServer(true);
+// TODO: replace with real data from the database
+const placeholderProfile: Profile = {
+  username: 'xXx_betta_xXx',
+  email: 'username@mail.com',
+  location: 'Anywhere, AYW',
+  avatar_url: null,
+}
 
-  return <p className="text-3xl font-bold p-4">Profile</p>
+export default function ProfilePage() {
+  return <ProfileView profile={placeholderProfile} />
 }
