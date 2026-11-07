@@ -19,7 +19,7 @@ export type Profile = {
 // Placeholder cards until real data is added
 const cards = [
     { id: 1, image: '/betta.jpg', label: 'Log Catch History', href: '/log-catch' },
-    { id: 2, image: '/betta.jpg', label: 'Settings', href: '/history' },
+    { id: 2, image: '/betta.jpg', label: 'Settings', href: '/settings' },
     { id: 3, image: '/betta.jpg', label: 'Log Catch History', href: '/history' },
 ]
 
