@@ -1,5 +1,5 @@
 import { type NextRequest } from "next/server";
-import { FISH_SPECIES, type FishType } from '@/lib/types/fishSpecies'
+import { FISH_SPECIES } from '@/lib/types/fishSpecies'
 import * as z from "zod";
 import { neon } from "@neondatabase/serverless";
 
@@ -29,21 +29,6 @@ function paramsToObject(params: URLSearchParams): Record<string, string | string
 
     return result;
 }
-
-/* async function runQuery(x: string, y: string, z: string): Promise<Buffer> {
-
-
-    Buffer.from(query[0]['st_asmvt'])
-
-    if (!query[0]['st_asmvt']) {
-        return Buffer.alloc(1);
-    }
-
-
-
-    return query[0]['st_asmvt'];
-
-} */
 
 export async function GET(request: NextRequest, ctx: RouteContext<'/api/fishTiles/[z]/[x]/[y]'>) {
     const {z, x, y} = await ctx.params;

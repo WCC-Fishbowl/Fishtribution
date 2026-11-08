@@ -3,8 +3,7 @@
 import { useRef, useEffect } from 'react'
 import * as mapboxgl from 'mapbox-gl/dist/mapbox-gl.js'
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { features } from 'process';
-import { GeoJSONSource } from 'mapbox-gl';
+
 
 export interface MapProps {
   initialCenter?: [number, number]
