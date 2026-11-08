@@ -1,8 +1,10 @@
 "use client";
 
 import { useRef, useEffect } from 'react'
-import * as mapboxgl from 'mapbox-gl/esm'
+import * as mapboxgl from 'mapbox-gl/dist/mapbox-gl.js'
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { features } from 'process';
+import { GeoJSONSource } from 'mapbox-gl';
 
 export interface MapProps {
   initialCenter?: [number, number]
@@ -26,6 +28,26 @@ export default function Map({
       center: initialCenter,
       zoom: initialZoom,
       style: 'mapbox://styles/mapbox/outdoors-v12',
+    })
+
+
+    mapRef.current.on('load', () => {
+      mapRef.current!.addSource('fish', {
+        type: 'vector',
+        tiles: ['http://localhost:3000/api/fishTiles/{z}/{x}/{y}']
+      })
+
+      mapRef.current!.addLayer({
+        id: 'fish',
+        type: 'circle',
+        source: 'fish',
+        "source-layer": 'default',
+        paint: {
+          'circle-color': '#ff1500',
+          'circle-radius': 10,
+          'circle-opacity': 1
+        }
+      })
     })
 
     return () => {

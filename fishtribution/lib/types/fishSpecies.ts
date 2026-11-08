@@ -1,0 +1,26 @@
+export const FISH_SPECIES = [
+    'oncorhynchus tshawytscha',
+    'oncorhynchus kisutch',
+    'oncorhynchus mykiss',
+    'salmo trutta',
+    'salvelinus fontinalis',
+    'salvelinus namaycush',
+    'coregonus clupeaformis',
+    'sander vitreus',
+    'perca flavescens',
+    'esox lucius',
+    'esox masquinongy',
+    'micropterus salmoides',
+    'micropterus dolomieu',
+    'lepomis macrochirus',
+    'lepomis gibbosus',
+    'pomoxis nigromaculatus',
+    'ambloplites rupestris',
+    'ictalurus punctatus',
+    'acipenser fulvescens',
+    'cyprinus carpio',
+    'aplodinotus grunniens',
+    'lota lota',
+] as const
+
+export type FishType = typeof FISH_SPECIES[number]
