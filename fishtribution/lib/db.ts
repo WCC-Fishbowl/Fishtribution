@@ -108,6 +108,34 @@ export async function getUserSettings(session: Session) {
   return data;
 }
 
+export async function uploadTaxonImage(
+  session: Session,
+  taxonId: string,
+  key: string,
+  fileSize: number,
+  width?: number,
+  height?: number,
+) {
+  const uid = session.user.id;
+  const data = await sql`
+    INSERT INTO taxon_images (taxon_id, s3_key, width, height, file_size)
+    SELECT ${taxonId}, ${key}, ${width ?? null}, ${height ?? null}, ${fileSize}
+    WHERE EXISTS (
+      SELECT 1
+      FROM fish_taxa
+      WHERE taxon_id = ${taxonId}
+    ) AND EXISTS (
+      SELECT 1
+      FROM users
+      WHERE user_id = ${uid}
+      AND role = 'admin'
+    )
+    RETURNING image_id;
+  `;
+
+  return data;
+}
+
 export async function uploadCatchImage(
   session: Session,
   catchId: string,
@@ -119,7 +147,7 @@ export async function uploadCatchImage(
   const uid = session.user.id;
   const data = await sql`
     INSERT INTO catch_images (catch_id, s3_key, width, height, file_size)
-    SELECT ${catchId}, ${key}, ${width}, ${height}, ${fileSize}
+    SELECT ${catchId}, ${key}, ${width ?? null}, ${height ?? null}, ${fileSize}
     WHERE EXISTS (
       SELECT 1
       FROM catches
@@ -128,6 +156,36 @@ export async function uploadCatchImage(
     )
     RETURNING image_id;
   `;
+  
+  if (!data || data.length === 0) {
+    throw new Error("Unauthorized or invalid taxon ID.");
+  }
 
+  return data;
+}
+
+export async function getImageKeyForTaxon(
+  taxonId: string,
+) {
+  const data = await sql`
+    SELECT s3_key
+    FROM fish_taxa
+    WHERE taxon_id = ${taxonId}
+  `;
+  
+  return data;
+}
+
+export async function getImageKeyForCatch(
+  catchId: string,
+  rank?: number
+) {
+  const data = await sql`
+    SELECT s3_key
+    FROM catch_images
+    WHERE catch_id = ${catchId}
+    AND rank = ${rank ?? 0};
+  `;
+  
   return data;
 }
