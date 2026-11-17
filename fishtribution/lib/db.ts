@@ -166,11 +166,13 @@ export async function uploadCatchImage(
 
 export async function getImageKeyForTaxon(
   taxonId: string,
+  rank?: number
 ) {
   const data = await sql`
     SELECT s3_key
     FROM fish_taxa
     WHERE taxon_id = ${taxonId}
+    AND rank = ${rank ?? 0};
   `;
   
   return data;

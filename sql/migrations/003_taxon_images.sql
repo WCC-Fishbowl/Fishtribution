@@ -10,7 +10,7 @@ CREATE TABLE taxon_images (
     width INTEGER,
     height INTEGER,
     
-    -- Order photos within catch view
+    -- Order photos
     rank INTEGER,
     UNIQUE (taxon_id, rank),
     
