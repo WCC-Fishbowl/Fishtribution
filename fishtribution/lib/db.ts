@@ -172,7 +172,7 @@ export async function getImageKeyForTaxon(
     SELECT s3_key
     FROM fish_taxa
     WHERE taxon_id = ${taxonId}
-    AND rank = ${rank ?? 0};
+    AND (rank = ${rank} OR rank IS NULL);
   `;
   
   return data;
@@ -186,7 +186,7 @@ export async function getImageKeyForCatch(
     SELECT s3_key
     FROM catch_images
     WHERE catch_id = ${catchId}
-    AND rank = ${rank ?? 0};
+    AND (rank = ${rank} OR rank IS NULL);
   `;
   
   return data;
