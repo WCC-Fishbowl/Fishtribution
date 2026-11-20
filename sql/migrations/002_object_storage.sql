@@ -19,5 +19,4 @@ CREATE TABLE catch_images (
 );
 
 CREATE INDEX idx_catch_images_catch_id ON catch_images(catch_id);
-CREATE INDEX idx_catch_images_processing_status ON catch_images(processing_status);
 CREATE INDEX idx_catch_images_rank ON catch_images(catch_id, rank NULLS LAST);
