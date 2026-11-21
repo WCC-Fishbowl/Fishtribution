@@ -16,13 +16,15 @@ const SIZES = {
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: keyof typeof VARIANTS,
   size?: keyof typeof SIZES,
-  fullWidth?: boolean;
+  fullWidth?: boolean,
+  isError?: boolean,
 }
 
 export default function Button({
   variant = 'primary',
   size = 'md',
   fullWidth = false,
+  isError = false,
   className = '',
   children,
   ...props
@@ -35,6 +37,7 @@ export default function Button({
     ${VARIANTS[variant]} 
     ${SIZES[size]} 
     ${fullWidth ? 'w-full' : ''} 
+    ${isError ? 'border border-2 border-red-500' : ''} 
     ${className}
   `.trim().replace(/\s+/g, ' ');
 

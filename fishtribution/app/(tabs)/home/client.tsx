@@ -1,8 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react';
-import Link from 'next/link';
-import CatchRow, { CatchTile } from '@/components/CatchCard';
+import { CatchTile } from '@/components/CatchCard';
 import { useRouter } from 'next/navigation';
 import { ArrowLeftIcon, MagnifyingGlassIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { CatchWithRelations, defaultCatchWithRelationsSearch } from '@/types/CatchWithRelations';

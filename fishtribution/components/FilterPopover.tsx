@@ -25,7 +25,7 @@ export default function FilterPopover({
     children,
     ...props
 }: FilterPopoverProps) {
-    const baseClasses = 'absolute right-0 top-full w-53 z-50 mt-2 mr-2 bg-white border-1 border-gray-400 rounded-md p-2 drop-shadow-md'
+    const baseClasses = 'absolute right-0 top-full w-53 z-50 mt-2 mr-2 bg-white border-1 border-slate-300 rounded-md p-2 drop-shadow-md';
     const combinedClasses = `
         ${baseClasses}
         ${className}
@@ -112,7 +112,7 @@ export default function FilterPopover({
                 {/* Row 4: Date */}
                 <div className="flex flex-col w-full">
                     <p className="text-[11px] font-bold font-title ml-1">Before:</p>
-                    <div className="w-full h-8 border-1 border-gray-400 hover:bg-gray-100 rounded-md items-center p-1">
+                    <div className="w-full h-8 border-1 border-slate-300 hover:bg-gray-100 rounded-md items-center p-1">
                         <input
                             type="date"
                             className="w-full self-center appearance-none text-[11px]"
@@ -126,12 +126,12 @@ export default function FilterPopover({
                 </div>
 
                 {/* Row 5: Time range */}
-                <div className="flex w-full items-center gap-1 border-1 border-gray-400 rounded-md p-1">
+                <div className="flex w-full items-center gap-1 border-1 border-slate-300 rounded-md p-1">
                     <div className="flex flex-col w-full">
                         <p className="text-[11px] font-bold font-title ml-1">From:</p>
                         <input
                             type="time"
-                            className="min-w-0 h-6 flex-1 text-xs border-gray-400 border-1 hover:bg-gray-100 rounded-sm"
+                            className="min-w-0 h-6 flex-1 text-xs border-slate-300 border-1 hover:bg-gray-100 rounded-sm"
                             value={filters.time_start_select ?? ""}
                             onChange={(e) => setFilters((prev) => ({
                                 ...prev,
@@ -144,7 +144,7 @@ export default function FilterPopover({
                         <p className="text-[11px] font-bold font-title ml-1">To:</p>
                         <input
                             type="time"
-                            className="min-w-0 h-6 flex-1 text-xs border-gray-400 border-1 hover:bg-gray-100 rounded-sm"
+                            className="min-w-0 h-6 flex-1 text-xs border-slate-300 border-1 hover:bg-gray-100 rounded-sm"
                             value={filters.time_end_select ?? ""}
                             onChange={(e) => setFilters((prev) => ({
                                 ...prev,

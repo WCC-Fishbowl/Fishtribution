@@ -1,10 +1,11 @@
 'use server'
 
 import { auth } from '@/lib/auth/server';
-import { getCatchesWithRelations, Session } from '@/lib/db';
+import { getCatchesWithRelations, Session, submitCatch } from '@/lib/db';
 import type { CatchWithRelationsSearch } from '@/types/CatchWithRelations';
 import type { FeedType } from '@/app/(tabs)/home/client';
 import { Point } from 'geojson';
+import { Catch } from '@/types/Catch';
 
 export async function searchCatches(
     feed: FeedType,
@@ -16,4 +17,8 @@ export async function searchCatches(
         ? sessionWrapper.data
         : null;
     return getCatchesWithRelations(session, feed === "Local" ? user_loc : null, params);
+}
+
+export async function createCatch(submission: Catch) {
+    return await submitCatch(submission);
 }

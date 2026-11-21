@@ -231,6 +231,42 @@ export async function getCatchesWithRelations(
   return results;
 }
 
+export async function submitCatch(submission: Catch) {
+  const data = await sql`
+    INSERT INTO catches (
+      catch_id,
+      taxon_id,
+      user_id,
+      pos,
+      length_cm,
+      weight_kg,
+      bait_or_lure,
+      notes,
+      caught_at,
+      created_at,
+      updated_at,
+      deleted_at
+    )
+    VALUES (
+      ${submission.catch_id},
+      ${submission.taxon_id},
+      ${submission.user_id},
+      ST_SetSRID(ST_GeomFromGeoJSON(${JSON.stringify(submission.pos)}), 4326),
+      ${submission.length_cm},
+      ${submission.weight_kg},
+      ${submission.bait_or_lure},
+      ${submission.notes},
+      ${submission.caught_at},
+      ${submission.created_at},
+      ${submission.updated_at},
+      ${submission.deleted_at}
+    )
+    RETURNING *;
+  `
+
+  return data[0];
+}
+
 export async function uploadCatchImage(
   session: Session,
   catchId: string,

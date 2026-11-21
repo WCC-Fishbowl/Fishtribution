@@ -1,4 +1,3 @@
-
 import { getCatchesWithRelations, Session } from '@/lib/db';
 import { defaultCatchWithRelationsSearch } from '@/types/CatchWithRelations'
 import { auth } from '@/lib/auth/server'
