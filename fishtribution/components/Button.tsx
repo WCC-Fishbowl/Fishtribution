@@ -37,7 +37,7 @@ export default function Button({
     ${VARIANTS[variant]} 
     ${SIZES[size]} 
     ${fullWidth ? 'w-full' : ''} 
-    ${isError ? 'border border-2 border-red-500' : ''} 
+    ${isError ? 'border border-2 !border-red-500' : ''} 
     ${className}
   `.trim().replace(/\s+/g, ' ');
 

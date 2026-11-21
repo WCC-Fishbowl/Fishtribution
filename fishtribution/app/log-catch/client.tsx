@@ -79,7 +79,7 @@ export default function LogCatchClient({ user_id }: LogCatchClientProps) {
             />
 
             {submissionErrMsg && (
-                <div className="w-full rounded-md border-2 border-red-500 bg-red-100 p-3 text-red-800">
+                <div className="w-full rounded-md border-2 !border-red-500 bg-red-100 p-3 text-red-800">
                     {submissionErrMsg}
                 </div>
             )}

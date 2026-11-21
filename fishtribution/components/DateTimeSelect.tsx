@@ -27,7 +27,7 @@ export default function DateTimeInput({
         ${baseClasses}
         ${SIZES[size]}
         ${fullWidth ? 'w-full' : ''}
-        ${isError ? 'border-red-500 border-2' : 'border-slate-300'}
+        ${isError ? '!border-red-500 border-2' : 'border-slate-300'}
         ${className}
     `.trim().replace(/\s+/g, ' ');
 
