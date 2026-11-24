@@ -170,7 +170,7 @@ export async function getImageKeyForTaxon(
 ) {
   const data = await sql`
     SELECT s3_key, rank
-    FROM fish_taxa
+    FROM taxon_images
     WHERE taxon_id = ${taxonId}
     AND (rank = ${rank} OR rank IS NULL);
   `;
