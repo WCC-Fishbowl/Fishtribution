@@ -1,8 +1,193 @@
 import { neon } from '@neondatabase/serverless';
 
+export type Session = {
+  user: {
+    id: string
+    name?: string | null
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    createdAt: Date
+    updatedAt: Date
+  }
+  session: {
+    id: string
+    userId: string
+    expiresAt: Date
+    ipAddress?: string | null
+    userAgent?: string | null
+    token: string
+    createdAt: Date
+    updatedAt: Date
+  }
+}
+
 const sql = neon(process.env.DATABASE_URL!);
 
 export async function getTestData() {
   const data = await sql`SELECT * FROM test_table;`;
+  return data;
+}
+
+export async function checkIfUserExists(
+  session: Session
+) {
+  const uid = session.user.id;
+  const [row] = await sql`
+    SELECT COUNT(*) AS exists_count
+    FROM users
+    WHERE user_id = ${uid};
+  `
+  return row.exists_count > 0;
+}
+
+export async function insertNewUser(
+  session: Session, 
+  username: string, 
+  email: string,
+) {
+  const uid = session.user.id;
+  const data = await sql`
+    INSERT INTO users (user_id, username, email, role)
+    VALUES (${uid}, ${username}, ${email}, 'angler')
+    ON CONFLICT (user_id) DO NOTHING;
+  `
+  
+  return data;
+}
+
+export async function insertUserSettings(
+  session: Session
+) {
+  const uid = session.user.id;
+  const data = await sql`
+    INSERT INTO user_settings (user_id)
+    VALUES (${uid})
+    ON CONFLICT (user_id) DO NOTHING;
+  `
+
+  return data;
+}
+
+export async function deleteUser(session: Session) {
+  const uid = session.user.id;
+  const data = await sql`
+    DELETE FROM users
+    WHERE user_id = ${uid};    
+  `
+  
+  return data;
+}
+
+export async function deleteUserSettings(session: Session) {
+  const uid = session.user.id;
+  const data = await sql`
+    DELETE FROM user_settings
+    WHERE user_id = ${uid}; 
+  `
+
+  return data;
+}
+
+export async function unlinkCatchesFromUser(session: Session) {
+  const uid = session.user.id;
+  const data = await sql`
+    UPDATE catches
+    SET user_id = NULL
+    WHERE user_id = ${uid};
+  `
+
+  return data;
+}
+
+
+export async function getUserSettings(session: Session) {
+  const uid = session.user.id;
+  const data = await sql`SELECT * FROM user_settings WHERE user_id = ${uid}`;
+
+  return data;
+}
+
+export async function uploadTaxonImage(
+  session: Session,
+  taxonId: string,
+  key: string,
+  fileSize: number,
+  width?: number,
+  height?: number,
+) {
+  const uid = session.user.id;
+  const data = await sql`
+    INSERT INTO taxon_images (taxon_id, s3_key, width, height, file_size)
+    SELECT ${taxonId}, ${key}, ${width ?? null}, ${height ?? null}, ${fileSize}
+    WHERE EXISTS (
+      SELECT 1
+      FROM fish_taxa
+      WHERE taxon_id = ${taxonId}
+    ) AND EXISTS (
+      SELECT 1
+      FROM users
+      WHERE user_id = ${uid}
+      AND role = 'admin'
+    )
+    RETURNING image_id;
+  `;
+
+  return data;
+}
+
+export async function uploadCatchImage(
+  session: Session,
+  catchId: string,
+  key: string,
+  fileSize: number,
+  width?: number,
+  height?: number,
+) {
+  const uid = session.user.id;
+  const data = await sql`
+    INSERT INTO catch_images (catch_id, s3_key, width, height, file_size)
+    SELECT ${catchId}, ${key}, ${width ?? null}, ${height ?? null}, ${fileSize}
+    WHERE EXISTS (
+      SELECT 1
+      FROM catches
+      WHERE catch_id = ${catchId}
+        AND user_id = ${uid}
+    )
+    RETURNING image_id;
+  `;
+  
+  if (!data || data.length === 0) {
+    throw new Error("Unauthorized or invalid taxon ID.");
+  }
+
+  return data;
+}
+
+export async function getImageKeyForTaxon(
+  taxonId: string,
+  rank?: number
+) {
+  const data = await sql`
+    SELECT s3_key, rank
+    FROM fish_taxa
+    WHERE taxon_id = ${taxonId}
+    AND (rank = ${rank} OR rank IS NULL);
+  `;
+  
+  return data;
+}
+
+export async function getImageKeyForCatch(
+  catchId: string,
+  rank?: number
+) {
+  const data = await sql`
+    SELECT s3_key, rank
+    FROM catch_images
+    WHERE catch_id = ${catchId}
+    AND (rank = ${rank} OR rank IS NULL);
+  `;
+  
   return data;
 }

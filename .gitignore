@@ -1,2 +1,4 @@
 .vercel
 .env*
+sql/generated/
+.venv/
