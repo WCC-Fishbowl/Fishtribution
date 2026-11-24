@@ -1,9 +1,15 @@
 import './globals.css'
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, Inter, Merriweather } from "next/font/google";
 import localFont from "next/font/local";
 
 import { Providers } from '@/app/providers';
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+}
 
 const plexMono = IBM_Plex_Mono ({
   weight: "400",
