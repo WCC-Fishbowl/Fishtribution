@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { Files } from "files-sdk";
 import { neon } from "files-sdk/neon";
 
-const files = new Files({ adapter: neon({ bucket: "public-assets" }) });
+const files = new Files({ adapter: neon({ bucket: "public-taxon-previews" }) });
 
 export async function GET(
   req: NextRequest,
